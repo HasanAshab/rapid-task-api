@@ -8,10 +8,6 @@ urlpatterns = [
     ),
     path(
         "api/",
-        include("ranker.authentication.urls"),
-    ),
-    path(
-        "api/",
         include("ranker.accounts.urls"),
     ),
     path(

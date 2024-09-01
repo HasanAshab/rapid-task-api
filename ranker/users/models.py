@@ -13,7 +13,6 @@ from django.contrib.auth.validators import (
 from django.utils.translation import (
     gettext_lazy as _,
 )
-from allauth.account.signals import user_signed_up
 from phonenumber_field.modelfields import (
     PhoneNumberField,
 )
@@ -129,9 +128,3 @@ User: UserModel = LazyProxy(get_user_model)
 def set_default_rank(sender, instance, **kwargs):
     if instance._state.adding and not instance.rank:
         instance.rank = User.objects.count() + 1
-
-
-@receiver(user_signed_up, dispatch_uid="generate_name")
-def generate_name(sender, request, user, **kwargs):
-    user.name = generate_name_from_username(user.username)
-    user.save()

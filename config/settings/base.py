@@ -67,15 +67,6 @@ THIRD_PARTY_APPS = [
     "drf_standardized_response",
     "drf_standardized_errors",
     "drf_pagination_meta_wrap",
-    "knox",
-    "allauth",
-    "allauth.account",
-    "allauth.socialaccount",
-    "allauth.mfa",
-    "allauth.headless",
-    "allauth.socialaccount.providers.google",
-    "allauth.socialaccount.providers.facebook",
-    "allauth.socialaccount.providers.twitter",
 ]
 
 LOCAL_APPS = [
@@ -97,12 +88,9 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "ranker.authentication.middleware.UsernameAuthMiddleware",
-    "allauth.account.middleware.AccountMiddleware",
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -155,6 +143,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -206,14 +195,15 @@ REST_FRAMEWORK = {
     # API Versioning
     "DEFAULT_VERSION": "v1",
     "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.AcceptHeaderVersioning",
-    # Auth
-    "DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",),
     # Exception
     "EXCEPTION_HANDLER": "drf_standardized_errors.handler.exception_handler",
     # Response
     "DEFAULT_RENDERER_CLASSES": (
         "drf_standardized_response.renderers.StandardizedJSONRenderer",
     ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'ranker.authentication.authentication.UsernameAuthentication',
+    ],
     # Pagination
     "PAGE_SIZE": 15,
     # Test
@@ -224,14 +214,10 @@ REST_FRAMEWORK = {
 
 # Api Docs
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Ranker",
-    "DESCRIPTION": "The api documentation of Ranker-API",
+    "TITLE": "Rapid Task",
+    "DESCRIPTION": "The api documentation of Rapid Task API",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
-    "EXTERNAL_DOCS": {
-        "url": "https://allauth.org/docs/draft-api",
-        "description": "Authentication",
-    },
     "SCHEMA_PATH_PREFIX": r"/api/",
     "ENUM_NAME_OVERRIDES": {
         "ValidationErrorEnum": "drf_standardized_errors.openapi_serializers.ValidationErrorEnum.choices",
@@ -249,57 +235,6 @@ SPECTACULAR_SETTINGS = {
     "POSTPROCESSING_HOOKS": (
         "drf_standardized_errors.openapi_hooks.postprocess_schema_enums",
     ),
-}
-
-# Knox (For Auth Token Management)
-REST_KNOX = {
-    "TOKEN_TTL": timedelta(days=20),
-    "AUTH_HEADER_PREFIX": "Bearer",
-}
-KNOX_TOKEN_MODEL = "knox.AuthToken"
-
-
-# All-Auth
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "optional"
-ACCOUNT_CHANGE_EMAIL = True
-ACCOUNT_EMAIL_NOTIFICATIONS = True
-ACCOUNT_USERNAME_MIN_LENGTH = 3
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
-MFA_TOTP_ISSUER = "Ranker"
-SOCIALACCOUNT_PROVIDERS = {
-    "google": {
-        "APP": {
-            "client_id": env("GOOGLE_CLIENT_ID"),
-            "secret": env("GOOGLE_CLIENT_SECRET"),
-            "key": "",
-        },
-        "SCOPE": ["profile", "email", "name"],
-    },
-    "facebook": {
-        "APP": {
-            "client_id": env("FACEBOOK_CLIENT_ID"),
-            "secret": env("FACEBOOK_CLIENT_SECRET"),
-            "key": "",
-        },
-    },
-    "twitter": {
-        "APP": {
-            "client_id": env("TWITTER_CLIENT_ID"),
-            "secret": env("TWITTER_CLIENT_SECRET"),
-            "key": "",
-        },
-    },
-}
-# All-Auth : Headless
-FRONTEND_BASE_URL = "https://ranker.com"
-HEADLESS_ONLY = True
-HEADLESS_TOKEN_STRATEGY = "ranker.authentication.tokens.SessionTokenStrategy"
-HEADLESS_FRONTEND_URLS = {
-    "account_confirm_email": FRONTEND_BASE_URL + "/account/verify-email/{key}",
-    "account_reset_password_from_key": FRONTEND_BASE_URL
-    + "/account/password/reset/{key}",
 }
 
 

@@ -20,7 +20,6 @@ defusedxml==0.7.1
 distlib==0.3.8
 distro==1.9.0
 Django==5.0
-django-allauth @ git+https://github.com/pennersr/django-allauth.git@f64c14320925545bb75fcf2d26e05feef3156085
 django-colorfield==0.11.0
 django-cors-headers==4.3.1
 django-datetime-validators==0.1
@@ -31,7 +30,6 @@ django-ipware==6.0.5
 django-model-utils==4.5.1
 django-notifications-hq @ git+https://github.com/django-notifications/django-notifications@ddf6b59978a1fb3fb6d01a6ba0de59a85bf2459e
 django-phonenumber-field==7.3.0
-django-rest-knox @ git+https://github.com/jazzband/django-rest-knox.git@09403255a069c2416a5dfb889f80342a2d7b2646
 django-twilio==0.14.3.3
 djangorestframework==3.15.1
 drf-generic-views==0.2
