@@ -1,4 +1,3 @@
-from http import HTTPMethod
 from rest_framework import permissions
 
 
@@ -6,7 +5,7 @@ class DeleteUserPermission(permissions.BasePermission):
     message = "You can't delete this user."
 
     def has_object_permission(self, request, view, obj):
-        if request.method == HTTPMethod.DELETE:
+        if request.method == "DELETE":
             return self.can_delete_user(request.user, obj)
         return True
 
