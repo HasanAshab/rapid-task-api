@@ -27,7 +27,6 @@ django-environ==0.11.2
 django-filter==24.2
 django-ipware==6.0.5
 django-model-utils==4.5.1
-django-notifications-hq @ git+https://github.com/django-notifications/django-notifications@ddf6b59978a1fb3fb6d01a6ba0de59a85bf2459e
 django-phonenumber-field==7.3.0
 django-twilio==0.14.3.3
 djangorestframework==3.15.1

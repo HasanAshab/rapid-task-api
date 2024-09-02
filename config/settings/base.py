@@ -56,7 +56,6 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     "corsheaders",
-    "notifications",
     "django_filters",
     "django_extensions",
     "phonenumber_field",
@@ -201,8 +200,8 @@ REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": (
         "drf_standardized_response.renderers.StandardizedJSONRenderer",
     ),
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'ranker.authentication.authentication.UsernameAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "ranker.authentication.authentication.UsernameAuthentication",
     ],
     # Pagination
     "PAGE_SIZE": 15,
