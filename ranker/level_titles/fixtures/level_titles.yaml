@@ -1,7 +1,7 @@
 - model: level_titles.LevelTitle
   pk: 1
   fields:
-    title: Beginner
+    title: Omega
     required_level: 1
     light_color: "#a8e6cf"
     dark_color: "#379683"
@@ -9,7 +9,7 @@
 - model: level_titles.LevelTitle
   pk: 2
   fields:
-    title: Learner
+    title: Gama
     required_level: 5
     light_color: "#ff8c94"
     dark_color: "#e55039"
@@ -17,7 +17,7 @@
 - model: level_titles.LevelTitle
   pk: 3
   fields:
-    title: Challenger
+    title: Delta
     required_level: 10
     light_color: "#ffcc5c"
     dark_color: "#ffab00"
@@ -25,7 +25,7 @@
 - model: level_titles.LevelTitle
   pk: 4
   fields:
-    title: Achiever
+    title: Beta
     required_level: 20
     light_color: "#d8bfd8"
     dark_color: "#8a2be2"
@@ -33,7 +33,7 @@
 - model: level_titles.LevelTitle
   pk: 5
   fields:
-    title: Expert
+    title: Alpha
     required_level: 25
     light_color: "#ffeb3b"
     dark_color: "#ffc107"
@@ -41,8 +41,8 @@
 - model: level_titles.LevelTitle
   pk: 6
   fields:
-    title: Master
-    required_level: 30
+    title: Sigma
+    required_level: 35
     light_color: "#f6b93b"
     dark_color: "#e58e26"
 
