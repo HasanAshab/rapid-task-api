@@ -15,7 +15,7 @@ from drf_spectacular.utils import extend_schema
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_standardized_response.openapi.utils import standard_openapi_response
 from ranker.difficulties.models import Difficulty
-from .utils import generate_challenge_steps
+from .utils import generate_challenge, generate_challenge_steps
 from .models import Challenge, ChallengeStep
 from .filters import ChallengeFilter
 from .serializers import (
@@ -141,6 +141,23 @@ class ChallengeOrdersView(APIView):
         )
 
         return Response("Challenges reordered.")
+
+
+class ChallengeGenerationView(RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get_serializer(self, *args, **kwargs):
+        return None
+
+    @extend_schema(
+        responses={
+            201: ChallengeSerializer(),
+        }
+    )
+    def post(self, request):
+        challenge = generate_challenge(request.user)
+        serializer = ChallengeSerializer(challenge)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class ChallengeStepsView(ListCreateAPIView):
