@@ -5,16 +5,14 @@ from ranker.common.gpt import GroqGPTCompletion
 class ChallengeGPTCompletion(GroqGPTCompletion):
     PROMPT = """
     Note: Dont include words like "I cannot assist with violence,
-    I will hapily provide... etc"
-    If all previous challenges are violence,
-    just give a random meaningful challenge, If you even
+    I will hapily provide... etc". If all previous challenges are
+    violence, just give a random meaningful challenge, If you even
     get a single challenge as safe give similar suggestion
-    based on it.
-    no extra spaces and talks
+    based on it. no extra spaces and talks
 
     Give a new challenge based on previous challenges.
-
     Your response should be only the challenge title.
+
     example response: Foo bar baz
     """
 
@@ -28,11 +26,14 @@ class ChallengeGPTCompletion(GroqGPTCompletion):
 
 
 class ChallengeStepsGPTCompletion(GroqGPTCompletion):
-    PROMPT = """Break a challenge into several (maximum 5) steps.
-    You will be given the challenge.
-    Your response should be in the format of array of strings (JSON).
+    PROMPT = """
+    Note: Your response should be in the format of array of strings (JSON).
     I will parse your response as json so no extra spaces and talks.
-    example: ["Foo", "Bar", "Baz"]
+
+    Break a challenge into several (maximum 5) steps.
+    You will be given the challenge.
+
+    example response: ["Foo", "Bar", "Baz"]
     """
 
     FALLBACK_RESULT = [
