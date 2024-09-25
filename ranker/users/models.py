@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.dispatch import receiver
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import (
     AbstractUser,
 )
@@ -12,9 +13,6 @@ from django.contrib.auth.validators import (
 )
 from django.utils.translation import (
     gettext_lazy as _,
-)
-from phonenumber_field.modelfields import (
-    PhoneNumberField,
 )
 from dirtyfields import DirtyFieldsMixin
 from ranker.common.utils import LazyProxy
@@ -39,28 +37,27 @@ class UserModel(DirtyFieldsMixin, AbstractUser):
     name = models.CharField(
         _("Name"), max_length=255, blank=True, help_text=_("Name of the user")
     )
-    gender = models.CharField(
-        _("Gender"),
-        max_length=1,
-        choices=Gender,
-        default=Gender.MALE,
-        help_text=_("Gender of the user"),
+    age = models.PositiveSmallIntegerField(
+        _("Age"),
+        null=True,
+        validators=[
+            MaxValueValidator(120),
+            MinValueValidator(4),
+        ],
+        help_text=_("Age of the user"),
     )
     username = models.CharField(
         _("Username"),
         max_length=settings.USERNAME_MAX_LENGTH,
         unique=True,
+        validators=[username_validator],
         help_text=_(
             f"Required. {settings.USERNAME_MAX_LENGTH} characters or fewer."
             "Letters, digits and @/./+/-/_ only."
         ),
-        validators=[username_validator],
         error_messages={
             "unique": _("A user with that username already exists."),
         },
-    )
-    phone_number = PhoneNumberField(
-        _("Phone Number"), blank=True, help_text=_("Phone number of the user")
     )
     avatar = models.ImageField(
         _("Avatar"),
@@ -128,3 +125,13 @@ User: UserModel = LazyProxy(get_user_model)
 def set_default_rank(sender, instance, **kwargs):
     if instance._state.adding and not instance.rank:
         instance.rank = User.objects.count() + 1
+
+
+@receiver(
+    models.signals.pre_save,
+    sender=settings.AUTH_USER_MODEL,
+    dispatch_uid="set_name",
+)
+def set_name(sender, instance, **kwargs):
+    if instance._state.adding and not instance.name:
+        instance.name = generate_name_from_username(instance.username)

@@ -58,7 +58,6 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "django_filters",
     "django_extensions",
-    "phonenumber_field",
     "colorfield",
     "rest_framework",
     "rest_framework.authtoken",
@@ -273,10 +272,6 @@ TOKEN_LOGIN_SALT = env("TOKEN_LOGIN_SALT")
 LOGIN_TOKEN_MAX_AGE = 5  # seconds
 
 # ranker.common
-TWILIO_ACCOUNT_SID = env("TWILIO_ACCOUNT_SID")
-TWILIO_AUTH_TOKEN = env("TWILIO_AUTH_TOKEN")
-TWILIO_VERIFY_SERVICE_SID = env("TWILIO_VERIFY_SERVICE_SID")
-
 GROQ_API_KEY = env("GROQ_API_KEY")
 
 # ranker.users

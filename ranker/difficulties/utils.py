@@ -20,7 +20,7 @@ def suggest_difficulty_for(user: User, title: str) -> Difficulty:
         f"""
             Available Difficulties: {", ".join(difficulty_slugs)}
             User Info:
-                Age: {user.age}
+                Age: {user.age or "No Enough Data"}
                 Gender: {user.gender}
                 Level: {user.level}
             Previus Challenges with Difficulty:

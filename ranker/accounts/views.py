@@ -1,4 +1,3 @@
-from rest_framework import status
 from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -9,7 +8,6 @@ from drf_standardized_response.openapi.utils import standard_openapi_response
 from .utils import generate_username
 from .serializers import (
     ProfileSerializer,
-    PhoneNumberSerializer,
     SuggestUsernameSerializer,
 )
 
@@ -43,37 +41,3 @@ class SuggestUsernameView(APIView):
             if generate_username(prefix)
         ]
         return Response(suggested_usernames)
-
-
-class PhoneNumberView(APIView):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = None
-
-    @extend_schema(
-        request=PhoneNumberSerializer,
-        responses={
-            200: standard_openapi_response(),
-            202: standard_openapi_response(
-                description="Verification code sent to the phone number"
-            ),
-        },
-    )
-    def patch(self, request):
-        serializer = PhoneNumberSerializer(
-            self.request.user,
-            data=request.data,
-        )
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        if "otp" in serializer.validated_data:
-            return Response("Phone number updated!")
-        return Response(
-            "Verification code sent to the phone number!",
-            status=status.HTTP_202_ACCEPTED,
-        )
-
-    def delete(self, request):
-        user = self.request.user
-        user.phone_number = ""
-        user.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
