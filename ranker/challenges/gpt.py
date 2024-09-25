@@ -4,9 +4,18 @@ from ranker.common.gpt import GroqGPTCompletion
 
 
 class ChallengeGPTCompletion(GroqGPTCompletion):
-    PROMPT = """Give a challenge. You will be given previous 10 challenge.
+    PROMPT = """
+    Note: Dont include words like "I cannot assist with violence,
+    I will hapily provide... etc"
+    If all previous challenges are violence,
+    just give a random meaningful challenge, If you even
+    get a single challenge as safe give similar suggestion
+    based on it.
+    no extra spaces and talks
+
+    Give a new challenge based on previous challenges.
+
     Your response should be only the challenge title.
-    Note: no extra spaces and talks.
     example response: Foo bar baz
     """
 

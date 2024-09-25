@@ -42,4 +42,5 @@ class DifficultySuggestionView(APIView):
         serializer.is_valid(raise_exception=True)
         challenge_title = serializer.validated_data["title"]
         difficulty = suggest_difficulty_for(request.user, challenge_title)
-        return Response(difficulty)
+        data = DifficultySerializer(difficulty).data
+        return Response(data)
