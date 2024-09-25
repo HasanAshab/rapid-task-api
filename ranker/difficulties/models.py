@@ -1,5 +1,3 @@
-from django.conf import settings
-from django.core.validators import MaxValueValidator
 from django.db import models
 from django.utils.translation import (
     gettext_lazy as _,
@@ -28,11 +26,15 @@ class Difficulty(models.Model):
     )
     xp_value = models.PositiveIntegerField(
         _("XP Value"),
-        validators=[
-            MaxValueValidator(settings.XP_PER_LEVEL),
-        ],
         help_text=_(
             "Number of xp value associated with this difficulty level."
+        ),
+    )
+    xp_penalty = models.PositiveIntegerField(
+        _("XP Penalty"),
+        help_text=_(
+            "The amount of XP deducted when"
+            "a challenge of this difficulty is failed."
         ),
     )
 
