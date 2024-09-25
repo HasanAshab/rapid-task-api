@@ -1,4 +1,3 @@
-import re
 import json
 from ranker.common.gpt import GroqGPTCompletion
 
@@ -25,7 +24,7 @@ class ChallengeGPTCompletion(GroqGPTCompletion):
         return result.strip()
 
     def is_valid_result(self, result):
-        return re.match(r"^[a-zA-Z0-9 ]+$", result) is not None
+        return "\n" not in result and "\r\n" not in result
 
 
 class ChallengeStepsGPTCompletion(GroqGPTCompletion):
