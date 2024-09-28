@@ -1,5 +1,3 @@
-import re
-from django.conf import settings
 from rest_framework import serializers
 from ranker.users.models import User
 from ranker.users.mixins import UserAvatarLinkSerializerMixin
@@ -44,14 +42,3 @@ class ProfileSerializer(
             "rank",
         )
         extra_kwargs = {"avatar": {"write_only": True}}
-
-
-class SuggestUsernameSerializer(serializers.Serializer):
-    prefix = serializers.CharField(required=False)
-    max_suggestions = serializers.IntegerField(
-        max_value=settings.USERNAME_MAX_SUGGESTIONS,
-        default=settings.USERNAME_MAX_SUGGESTIONS,
-    )
-
-    def clean_prefix(self, prefix):
-        return re.sub(r"[^a-zA-Z0-9@/.\+\-_]", "", prefix)
