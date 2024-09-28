@@ -48,11 +48,11 @@ class UserModel(DirtyFieldsMixin, AbstractUser):
     )
     username = models.CharField(
         _("Username"),
-        max_length=settings.USERNAME_MAX_LENGTH,
+        max_length=35,
         unique=True,
         validators=[username_validator],
         help_text=_(
-            f"Required. {settings.USERNAME_MAX_LENGTH} characters or fewer."
+            "Required. 35 characters or fewer."
             "Letters, digits and @/./+/-/_ only."
         ),
         error_messages={
