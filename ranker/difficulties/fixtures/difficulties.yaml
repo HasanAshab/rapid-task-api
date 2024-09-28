@@ -5,7 +5,7 @@
     slug: novice
     light_color: "#ffffffff"
     dark_color: "#ffffffff"
-    xp_value: 10
+    xp_value: 5
     xp_penalty: 1000
 
 - model: difficulties.Difficulty

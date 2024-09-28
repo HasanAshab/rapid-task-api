@@ -24,13 +24,13 @@ class Difficulty(models.Model):
     dark_color = ColorField(
         _("Dark Color"), help_text=_("The display color for dark theme.")
     )
-    xp_value = models.PositiveIntegerField(
+    xp_value = models.PositiveSmallIntegerField(
         _("XP Value"),
         help_text=_(
             "Number of xp value associated with this difficulty level."
         ),
     )
-    xp_penalty = models.PositiveIntegerField(
+    xp_penalty = models.PositiveSmallIntegerField(
         _("XP Penalty"),
         help_text=_(
             "The amount of XP deducted when"
