@@ -74,3 +74,9 @@ class ChallengeStepSerializer(serializers.ModelSerializer):
             "is_completed",
             "order",
         )
+
+
+class ChallengeSuggestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Challenge
+        fields = ("title",)

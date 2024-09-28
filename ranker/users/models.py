@@ -46,6 +46,13 @@ class UserModel(DirtyFieldsMixin, AbstractUser):
         ],
         help_text=_("Age of the user"),
     )
+    gender = models.CharField(
+        _("Gender"),
+        max_length=1,
+        choices=Gender.choices,
+        default=Gender.MALE,
+        help_text=_("Gender of the user"),
+    )
     username = models.CharField(
         _("Username"),
         max_length=35,

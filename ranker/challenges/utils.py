@@ -4,14 +4,14 @@ from .gpt import ChallengeGPTCompletion, ChallengeStepsGPTCompletion
 from .models import Challenge, ChallengeStep
 
 
-def suggest_challenge(user: User) -> Challenge:
+def suggest_challenge_title(user: User) -> Challenge:
     latest_challenges = user.challenge_set.order_by("-id")[:10].values_list(
         "title", flat=True
     )
     joined_titles = ", ".join(latest_challenges)
+    print(joined_titles)
     completion = ChallengeGPTCompletion(joined_titles)
-    title = completion.create()
-    return Challenge(user=user, title=title)
+    return completion.create()
 
 
 def generate_challenge_steps(challenge: Challenge) -> list[ChallengeStep]:

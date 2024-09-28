@@ -4,9 +4,8 @@ from ranker.common.gpt import GroqGPTCompletion
 
 class ChallengeGPTCompletion(GroqGPTCompletion):
     PROMPT = """
-    Note: Dont include words like "I cannot assist with violence,
-    I will hapily provide... etc". If all previous challenges are
-    violence, just give a random meaningful challenge, If you even
+    Note: If previous challenge are violenced,
+    just give a random meaningful challenge, If you even
     get a single challenge as safe give similar suggestion
     based on it. no extra spaces and talks
 

@@ -15,7 +15,7 @@ from drf_spectacular.utils import extend_schema
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_standardized_response.openapi.utils import standard_openapi_response
 from ranker.difficulties.models import Difficulty
-from .utils import suggest_challenge, generate_challenge_steps
+from .utils import suggest_challenge_title, generate_challenge_steps
 from .models import Challenge, ChallengeStep
 from .filters import ChallengeFilter
 from .serializers import (
@@ -24,6 +24,7 @@ from .serializers import (
     ChallengeDifficultyCountSerializer,
     ReOrderingSerializer,
     ChallengeStepSerializer,
+    ChallengeSuggestionSerializer,
 )
 from .pagination import ChallengePagination
 
@@ -245,10 +246,9 @@ class ChallengeSuggestionView(APIView):
 
     @extend_schema(
         responses={
-            200: ChallengeSerializer(),
+            200: ChallengeSuggestionSerializer,
         }
     )
     def post(self, request):
-        challenge = suggest_challenge(request.user)
-        serializer = ChallengeSerializer(challenge)
-        return Response(serializer.data)
+        challenge_title = suggest_challenge_title(request.user)
+        return Response({"title": challenge_title})
