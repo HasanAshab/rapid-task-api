@@ -3,7 +3,7 @@ from ranker.common.gpt import GroqGPTCompletion
 
 
 class ChallengeGPTCompletion(GroqGPTCompletion):
-    PROMPT = """
+    system_message = """
     Note: If previous challenge are violenced,
     just give a random meaningful challenge, If you even
     get a single challenge as safe give similar suggestion
@@ -15,7 +15,7 @@ class ChallengeGPTCompletion(GroqGPTCompletion):
     example response: Foo bar baz
     """
 
-    FALLBACK_RESULT = "Complete a 5K run in under 30 minutes"
+    fallback_result = "Complete a 5K run in under 30 minutes"
 
     def clean_result(self, result):
         return result.strip()
@@ -25,7 +25,7 @@ class ChallengeGPTCompletion(GroqGPTCompletion):
 
 
 class ChallengeStepsGPTCompletion(GroqGPTCompletion):
-    PROMPT = """
+    system_message = """
     Note: Your response should be in the format of array of strings (JSON).
     I will parse your response as json so no extra spaces and talks.
 
@@ -35,7 +35,7 @@ class ChallengeStepsGPTCompletion(GroqGPTCompletion):
     example response: ["Foo", "Bar", "Baz"]
     """
 
-    FALLBACK_RESULT = [
+    fallback_result = [
         "Identify the main objective",
         "Break down the objective into smaller steps",
         "Assign deadlines to each steps",

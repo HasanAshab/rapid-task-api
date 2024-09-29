@@ -3,7 +3,7 @@ from .models import Difficulty
 
 
 class DifficultyGPTCompletion(GroqGPTCompletion):
-    PROMPT = """
+    system_message = """
     Note: response should be only the difficulty name,
     no extra spaces and talks.
 
