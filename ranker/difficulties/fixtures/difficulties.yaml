@@ -9,7 +9,7 @@
     xp_penalty: 1000
 
 - model: difficulties.Difficulty
-  pk: 1
+  pk: 2
   fields:
     name: Easy
     slug: easy
@@ -19,7 +19,7 @@
     xp_penalty: 500
 
 - model: difficulties.Difficulty
-  pk: 2
+  pk: 3
   fields:
     name: Medium
     slug: medium
@@ -29,7 +29,7 @@
     xp_penalty: 200
 
 - model: difficulties.Difficulty
-  pk: 3
+  pk: 4
   fields:
     name: Hard
     slug: hard
@@ -39,7 +39,7 @@
     xp_penalty: 100
 
 - model: difficulties.Difficulty
-  pk: 4
+  pk: 5
   fields:
     name: Insane
     slug: insane
@@ -49,7 +49,7 @@
     xp_penalty: 50
 
 - model: difficulties.Difficulty
-  pk: 5
+  pk: 6
   fields:
     name: Crazy
     slug: crazy
@@ -59,7 +59,7 @@
     xp_penalty: 20
 
 - model: difficulties.Difficulty
-  pk: 5
+  pk: 7
   fields:
     name: Impossible
     slug: impossible
