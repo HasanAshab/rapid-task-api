@@ -268,12 +268,11 @@ SCHEDULED_COMMANDS = [
 
 # Ranker
 
-# ranker.authentication
-TOKEN_LOGIN_SALT = env("TOKEN_LOGIN_SALT")
-LOGIN_TOKEN_MAX_AGE = 5  # seconds
-
 # ranker.common
 GROQ_API_KEY = env("GROQ_API_KEY")
 
 # ranker.users
 XP_PER_LEVEL = 1000
+
+# ranker.docs
+SCHEMA_DIR = STATIC_ROOT / "docs"
