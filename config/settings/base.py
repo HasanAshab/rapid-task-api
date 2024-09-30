@@ -70,6 +70,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "command_scheduler",
     "ranker.common",
+    "ranker.docs",
     "ranker.authentication",
     "ranker.accounts",
     "ranker.users",

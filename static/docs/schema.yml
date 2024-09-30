@@ -110,6 +110,12 @@ paths:
                         type: string
                         description: Name of the user
                         maxLength: 255
+                      age:
+                        type: integer
+                        maximum: 120
+                        minimum: 4
+                        nullable: true
+                        description: Age of the user
                       gender:
                         allOf:
                         - $ref: '#/components/schemas/GenderEnum'
@@ -118,10 +124,6 @@ paths:
 
                           * `M` - Male
                           * `F` - Female
-                      phone_number:
-                        type: string
-                        readOnly: true
-                        description: Phone number of the user
                       avatar:
                         type: string
                         format: uri
@@ -168,7 +170,6 @@ paths:
                     - level
                     - level_title
                     - links
-                    - phone_number
                     - rank
                     - total_xp
                     - username
@@ -287,6 +288,12 @@ paths:
                         type: string
                         description: Name of the user
                         maxLength: 255
+                      age:
+                        type: integer
+                        maximum: 120
+                        minimum: 4
+                        nullable: true
+                        description: Age of the user
                       gender:
                         allOf:
                         - $ref: '#/components/schemas/GenderEnum'
@@ -295,10 +302,6 @@ paths:
 
                           * `M` - Male
                           * `F` - Female
-                      phone_number:
-                        type: string
-                        readOnly: true
-                        description: Phone number of the user
                       avatar:
                         type: string
                         format: uri
@@ -345,7 +348,6 @@ paths:
                     - level
                     - level_title
                     - links
-                    - phone_number
                     - rank
                     - total_xp
                     - username
@@ -463,6 +465,12 @@ paths:
                         type: string
                         description: Name of the user
                         maxLength: 255
+                      age:
+                        type: integer
+                        maximum: 120
+                        minimum: 4
+                        nullable: true
+                        description: Age of the user
                       gender:
                         allOf:
                         - $ref: '#/components/schemas/GenderEnum'
@@ -471,10 +479,6 @@ paths:
 
                           * `M` - Male
                           * `F` - Female
-                      phone_number:
-                        type: string
-                        readOnly: true
-                        description: Phone number of the user
                       avatar:
                         type: string
                         format: uri
@@ -521,7 +525,6 @@ paths:
                     - level
                     - level_title
                     - links
-                    - phone_number
                     - rank
                     - total_xp
                     - username
@@ -595,254 +598,6 @@ paths:
           description: ''
         '204':
           description: No response body
-  /api/account/phone_number/:
-    patch:
-      operationId: account_phone_number_partial_update
-      tags:
-      - account
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedPhoneNumber'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedPhoneNumber'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedPhoneNumber'
-      responses:
-        '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountPhoneNumberPartialUpdateErrorResponse400'
-          description: ''
-        '405':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse405'
-              examples:
-                MethodNotAllowed:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: method_not_allowed
-                      detail: Method "get" not allowed.
-                      attr: null
-          description: ''
-        '406':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse406'
-              examples:
-                NotAcceptable:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: not_acceptable
-                      detail: Could not satisfy the request Accept header.
-                      attr: null
-          description: ''
-        '415':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse415'
-              examples:
-                UnsupportedMediaType:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: unsupported_media_type
-                      detail: Unsupported media type "application/json" in request.
-                      attr: null
-          description: ''
-        '500':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse500'
-              examples:
-                APIException:
-                  value:
-                    type: server_error
-                    errors:
-                    - code: error
-                      detail: A server error occurred.
-                      attr: null
-          description: ''
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StandardResponse'
-          description: ''
-        '202':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StandardResponse'
-          description: Verification code sent to the phone number
-    delete:
-      operationId: account_phone_number_destroy
-      tags:
-      - account
-      responses:
-        '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountPhoneNumberDestroyErrorResponse400'
-          description: ''
-        '405':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse405'
-              examples:
-                MethodNotAllowed:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: method_not_allowed
-                      detail: Method "get" not allowed.
-                      attr: null
-          description: ''
-        '406':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse406'
-              examples:
-                NotAcceptable:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: not_acceptable
-                      detail: Could not satisfy the request Accept header.
-                      attr: null
-          description: ''
-        '415':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse415'
-              examples:
-                UnsupportedMediaType:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: unsupported_media_type
-                      detail: Unsupported media type "application/json" in request.
-                      attr: null
-          description: ''
-        '500':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse500'
-              examples:
-                APIException:
-                  value:
-                    type: server_error
-                    errors:
-                    - code: error
-                      detail: A server error occurred.
-                      attr: null
-          description: ''
-        '204':
-          description: No response body
-  /api/account/suggest-username/:
-    get:
-      operationId: account_suggest_username_retrieve
-      parameters:
-      - in: query
-        name: max_suggestions
-        schema:
-          type: integer
-          maximum: 3
-          default: 3
-      - in: query
-        name: prefix
-        schema:
-          type: string
-          minLength: 1
-      tags:
-      - account
-      security:
-      - {}
-      responses:
-        '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountSuggestUsernameRetrieveErrorResponse400'
-          description: ''
-        '405':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse405'
-              examples:
-                MethodNotAllowed:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: method_not_allowed
-                      detail: Method "get" not allowed.
-                      attr: null
-          description: ''
-        '406':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse406'
-              examples:
-                NotAcceptable:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: not_acceptable
-                      detail: Could not satisfy the request Accept header.
-                      attr: null
-          description: ''
-        '415':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse415'
-              examples:
-                UnsupportedMediaType:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: unsupported_media_type
-                      detail: Unsupported media type "application/json" in request.
-                      attr: null
-          description: ''
-        '500':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse500'
-              examples:
-                APIException:
-                  value:
-                    type: server_error
-                    errors:
-                    - code: error
-                      detail: A server error occurred.
-                      attr: null
-          description: ''
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuggestUsername'
-          description: ''
   /api/challenges/:
     get:
       operationId: challenges_list
@@ -881,6 +636,22 @@ paths:
         description: |-
           * `ordered` - Ordered
           * `difficulty` - Difficulty
+      - in: query
+        name: repeat_type
+        schema:
+          type: string
+          enum:
+          - D
+          - M
+          - O
+          - W
+        description: |-
+          How often the challenge repeats.
+
+          * `O` - One time Only
+          * `D` - Daily
+          * `W` - Weekly
+          * `M` - Monthly
       - name: search
         required: false
         in: query
@@ -2750,6 +2521,95 @@ paths:
               schema:
                 $ref: '#/components/schemas/StandardResponse'
           description: ''
+  /api/challenges/suggestions/:
+    post:
+      operationId: challenges_suggestions_create
+      tags:
+      - challenges
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengesSuggestionsCreateErrorResponse400'
+          description: ''
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: ''
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: ''
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  links: null
+                  data:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                        description: Title of the challenge.
+                        maxLength: 50
+                    required:
+                    - title
+          description: ''
   /api/difficulties/:
     get:
       operationId: difficulties_list
@@ -2960,14 +2820,161 @@ paths:
                         maxLength: 25
                       xp_value:
                         type: integer
-                        maximum: 1000
+                        maximum: 9223372036854775807
                         minimum: 0
+                        format: int64
                         description: Number of xp value associated with this difficulty
                           level.
+                      xp_penalty:
+                        type: integer
+                        maximum: 9223372036854775807
+                        minimum: 0
+                        format: int64
+                        description: The amount of XP deducted whena challenge of
+                          this difficulty is failed.
                     required:
                     - id
                     - name
                     - slug
+                    - xp_penalty
+                    - xp_value
+          description: ''
+  /api/difficulties/suggestions/:
+    post:
+      operationId: difficulties_suggestions_create
+      tags:
+      - difficulties
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengeDifficultySuggestion'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChallengeDifficultySuggestion'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChallengeDifficultySuggestion'
+        required: true
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DifficultiesSuggestionsCreateErrorResponse400'
+          description: ''
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: ''
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: ''
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  links: null
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        readOnly: true
+                      name:
+                        type: string
+                        description: The display name of the difficulty level.
+                        maxLength: 30
+                      slug:
+                        type: string
+                        description: The slugyfied version of the difficulty name.
+                        maxLength: 30
+                        pattern: ^[-a-zA-Z0-9_]+$
+                      light_color:
+                        type: string
+                        title: Ligth Color
+                        description: The display color for ligth theme.
+                        pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+                        maxLength: 25
+                      dark_color:
+                        type: string
+                        description: The display color for dark theme.
+                        pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+                        maxLength: 25
+                      xp_value:
+                        type: integer
+                        maximum: 9223372036854775807
+                        minimum: 0
+                        format: int64
+                        description: Number of xp value associated with this difficulty
+                          level.
+                      xp_penalty:
+                        type: integer
+                        maximum: 9223372036854775807
+                        minimum: 0
+                        format: int64
+                        description: The amount of XP deducted whena challenge of
+                          this difficulty is failed.
+                    required:
+                    - id
+                    - name
+                    - slug
+                    - xp_penalty
                     - xp_value
           description: ''
   /api/level-titles/:
@@ -3730,6 +3737,32 @@ components:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
+    AccountPartialUpdateAgeErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - age
+          type: string
+          description: '* `age` - age'
+        code:
+          enum:
+          - invalid
+          - max_string_length
+          - max_value
+          - min_value
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `max_string_length` - max_string_length
+            * `max_value` - max_value
+            * `min_value` - min_value
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
     AccountPartialUpdateAvatarErrorComponent:
       type: object
       properties:
@@ -3765,6 +3798,7 @@ components:
       - $ref: '#/components/schemas/AccountPartialUpdateNonFieldErrorsErrorComponent'
       - $ref: '#/components/schemas/AccountPartialUpdateUsernameErrorComponent'
       - $ref: '#/components/schemas/AccountPartialUpdateNameErrorComponent'
+      - $ref: '#/components/schemas/AccountPartialUpdateAgeErrorComponent'
       - $ref: '#/components/schemas/AccountPartialUpdateGenderErrorComponent'
       - $ref: '#/components/schemas/AccountPartialUpdateAvatarErrorComponent'
       discriminator:
@@ -3773,6 +3807,7 @@ components:
           non_field_errors: '#/components/schemas/AccountPartialUpdateNonFieldErrorsErrorComponent'
           username: '#/components/schemas/AccountPartialUpdateUsernameErrorComponent'
           name: '#/components/schemas/AccountPartialUpdateNameErrorComponent'
+          age: '#/components/schemas/AccountPartialUpdateAgeErrorComponent'
           gender: '#/components/schemas/AccountPartialUpdateGenderErrorComponent'
           avatar: '#/components/schemas/AccountPartialUpdateAvatarErrorComponent'
     AccountPartialUpdateErrorResponse400:
@@ -3899,122 +3934,6 @@ components:
       required:
       - errors
       - type
-    AccountPhoneNumberDestroyErrorResponse400:
-      oneOf:
-      - $ref: '#/components/schemas/ParseErrorResponse'
-      discriminator:
-        propertyName: type
-        mapping:
-          client_error: '#/components/schemas/ParseErrorResponse'
-    AccountPhoneNumberPartialUpdateError:
-      oneOf:
-      - $ref: '#/components/schemas/AccountPhoneNumberPartialUpdateNonFieldErrorsErrorComponent'
-      - $ref: '#/components/schemas/AccountPhoneNumberPartialUpdatePhoneNumberErrorComponent'
-      - $ref: '#/components/schemas/AccountPhoneNumberPartialUpdateOtpErrorComponent'
-      discriminator:
-        propertyName: attr
-        mapping:
-          non_field_errors: '#/components/schemas/AccountPhoneNumberPartialUpdateNonFieldErrorsErrorComponent'
-          phone_number: '#/components/schemas/AccountPhoneNumberPartialUpdatePhoneNumberErrorComponent'
-          otp: '#/components/schemas/AccountPhoneNumberPartialUpdateOtpErrorComponent'
-    AccountPhoneNumberPartialUpdateErrorResponse400:
-      oneOf:
-      - $ref: '#/components/schemas/AccountPhoneNumberPartialUpdateValidationError'
-      - $ref: '#/components/schemas/ParseErrorResponse'
-      discriminator:
-        propertyName: type
-        mapping:
-          validation_error: '#/components/schemas/AccountPhoneNumberPartialUpdateValidationError'
-          client_error: '#/components/schemas/ParseErrorResponse'
-    AccountPhoneNumberPartialUpdateNonFieldErrorsErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - non_field_errors
-          type: string
-          description: '* `non_field_errors` - non_field_errors'
-        code:
-          enum:
-          - invalid
-          type: string
-          description: '* `invalid` - invalid'
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    AccountPhoneNumberPartialUpdateOtpErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - otp
-          type: string
-          description: '* `otp` - otp'
-        code:
-          enum:
-          - blank
-          - invalid
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `blank` - blank
-            * `invalid` - invalid
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    AccountPhoneNumberPartialUpdatePhoneNumberErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - phone_number
-          type: string
-          description: '* `phone_number` - phone_number'
-        code:
-          enum:
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - required
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `required` - required
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    AccountPhoneNumberPartialUpdateValidationError:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/ValidationErrorEnum'
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountPhoneNumberPartialUpdateError'
-      required:
-      - errors
-      - type
     AccountRetrieveErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
@@ -4022,13 +3941,32 @@ components:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
-    AccountSuggestUsernameRetrieveErrorResponse400:
-      oneOf:
-      - $ref: '#/components/schemas/ParseErrorResponse'
-      discriminator:
-        propertyName: type
-        mapping:
-          client_error: '#/components/schemas/ParseErrorResponse'
+    AccountUpdateAgeErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - age
+          type: string
+          description: '* `age` - age'
+        code:
+          enum:
+          - invalid
+          - max_string_length
+          - max_value
+          - min_value
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `max_string_length` - max_string_length
+            * `max_value` - max_value
+            * `min_value` - min_value
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
     AccountUpdateAvatarErrorComponent:
       type: object
       properties:
@@ -4064,6 +4002,7 @@ components:
       - $ref: '#/components/schemas/AccountUpdateNonFieldErrorsErrorComponent'
       - $ref: '#/components/schemas/AccountUpdateUsernameErrorComponent'
       - $ref: '#/components/schemas/AccountUpdateNameErrorComponent'
+      - $ref: '#/components/schemas/AccountUpdateAgeErrorComponent'
       - $ref: '#/components/schemas/AccountUpdateGenderErrorComponent'
       - $ref: '#/components/schemas/AccountUpdateAvatarErrorComponent'
       discriminator:
@@ -4072,6 +4011,7 @@ components:
           non_field_errors: '#/components/schemas/AccountUpdateNonFieldErrorsErrorComponent'
           username: '#/components/schemas/AccountUpdateUsernameErrorComponent'
           name: '#/components/schemas/AccountUpdateNameErrorComponent'
+          age: '#/components/schemas/AccountUpdateAgeErrorComponent'
           gender: '#/components/schemas/AccountUpdateGenderErrorComponent'
           avatar: '#/components/schemas/AccountUpdateAvatarErrorComponent'
     AccountUpdateErrorResponse400:
@@ -4287,12 +4227,20 @@ components:
           type: integer
           readOnly: true
           description: Number of xp value associated with this difficulty level.
+        xp_penalty:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          description: The amount of XP deducted whena challenge of this difficulty
+            is failed.
       required:
       - dark_color
       - id
       - light_color
       - name
       - slug
+      - xp_penalty
       - xp_value
     ChallengeDifficultyCount:
       type: object
@@ -4324,15 +4272,33 @@ components:
           maxLength: 25
         xp_value:
           type: integer
-          maximum: 1000
+          maximum: 9223372036854775807
           minimum: 0
+          format: int64
           description: Number of xp value associated with this difficulty level.
+        xp_penalty:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          description: The amount of XP deducted whena challenge of this difficulty
+            is failed.
       required:
       - challenge_count
       - id
       - name
       - slug
+      - xp_penalty
       - xp_value
+    ChallengeDifficultySuggestion:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the challenge.
+          maxLength: 50
+      required:
+      - title
     ChallengeStep:
       type: object
       properties:
@@ -4355,6 +4321,15 @@ components:
           description: Priority order of the step.
       required:
       - id
+      - title
+    ChallengeSuggestion:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the challenge.
+          maxLength: 50
+      required:
       - title
     ChallengesActivitiesRetrieveErrorResponse400:
       oneOf:
@@ -4413,6 +4388,36 @@ components:
       - attr
       - code
       - detail
+    ChallengesCreateDifficultyXpPenaltyErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - difficulty.xp_penalty
+          type: string
+          description: '* `difficulty.xp_penalty` - difficulty.xp_penalty'
+        code:
+          enum:
+          - invalid
+          - max_string_length
+          - max_value
+          - min_value
+          - 'null'
+          - required
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `max_string_length` - max_string_length
+            * `max_value` - max_value
+            * `min_value` - min_value
+            * `null` - null
+            * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
     ChallengesCreateDueDateErrorComponent:
       type: object
       properties:
@@ -4449,6 +4454,7 @@ components:
       - $ref: '#/components/schemas/ChallengesCreateDueDateErrorComponent'
       - $ref: '#/components/schemas/ChallengesCreateDifficultyNonFieldErrorsErrorComponent'
       - $ref: '#/components/schemas/ChallengesCreateDifficultyIdErrorComponent'
+      - $ref: '#/components/schemas/ChallengesCreateDifficultyXpPenaltyErrorComponent'
       - $ref: '#/components/schemas/ChallengesCreateOrderErrorComponent'
       discriminator:
         propertyName: attr
@@ -4461,6 +4467,7 @@ components:
           due_date: '#/components/schemas/ChallengesCreateDueDateErrorComponent'
           difficulty.non_field_errors: '#/components/schemas/ChallengesCreateDifficultyNonFieldErrorsErrorComponent'
           difficulty.id: '#/components/schemas/ChallengesCreateDifficultyIdErrorComponent'
+          difficulty.xp_penalty: '#/components/schemas/ChallengesCreateDifficultyXpPenaltyErrorComponent'
           order: '#/components/schemas/ChallengesCreateOrderErrorComponent'
     ChallengesCreateErrorResponse400:
       oneOf:
@@ -4657,11 +4664,13 @@ components:
     ChallengesListError:
       oneOf:
       - $ref: '#/components/schemas/ChallengesListDifficultyErrorComponent'
+      - $ref: '#/components/schemas/ChallengesListRepeatTypeErrorComponent'
       - $ref: '#/components/schemas/ChallengesListOrderingErrorComponent'
       discriminator:
         propertyName: attr
         mapping:
           difficulty: '#/components/schemas/ChallengesListDifficultyErrorComponent'
+          repeat_type: '#/components/schemas/ChallengesListRepeatTypeErrorComponent'
           ordering: '#/components/schemas/ChallengesListOrderingErrorComponent'
     ChallengesListErrorResponse400:
       oneOf:
@@ -4680,6 +4689,25 @@ components:
           - ordering
           type: string
           description: '* `ordering` - ordering'
+        code:
+          enum:
+          - invalid_choice
+          type: string
+          description: '* `invalid_choice` - invalid_choice'
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ChallengesListRepeatTypeErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - repeat_type
+          type: string
+          description: '* `repeat_type` - repeat_type'
         code:
           enum:
           - invalid_choice
@@ -4884,6 +4912,36 @@ components:
       - attr
       - code
       - detail
+    ChallengesPartialUpdateDifficultyXpPenaltyErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - difficulty.xp_penalty
+          type: string
+          description: '* `difficulty.xp_penalty` - difficulty.xp_penalty'
+        code:
+          enum:
+          - invalid
+          - max_string_length
+          - max_value
+          - min_value
+          - 'null'
+          - required
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `max_string_length` - max_string_length
+            * `max_value` - max_value
+            * `min_value` - min_value
+            * `null` - null
+            * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
     ChallengesPartialUpdateDueDateErrorComponent:
       type: object
       properties:
@@ -4920,6 +4978,7 @@ components:
       - $ref: '#/components/schemas/ChallengesPartialUpdateDueDateErrorComponent'
       - $ref: '#/components/schemas/ChallengesPartialUpdateDifficultyNonFieldErrorsErrorComponent'
       - $ref: '#/components/schemas/ChallengesPartialUpdateDifficultyIdErrorComponent'
+      - $ref: '#/components/schemas/ChallengesPartialUpdateDifficultyXpPenaltyErrorComponent'
       - $ref: '#/components/schemas/ChallengesPartialUpdateOrderErrorComponent'
       discriminator:
         propertyName: attr
@@ -4932,6 +4991,7 @@ components:
           due_date: '#/components/schemas/ChallengesPartialUpdateDueDateErrorComponent'
           difficulty.non_field_errors: '#/components/schemas/ChallengesPartialUpdateDifficultyNonFieldErrorsErrorComponent'
           difficulty.id: '#/components/schemas/ChallengesPartialUpdateDifficultyIdErrorComponent'
+          difficulty.xp_penalty: '#/components/schemas/ChallengesPartialUpdateDifficultyXpPenaltyErrorComponent'
           order: '#/components/schemas/ChallengesPartialUpdateOrderErrorComponent'
     ChallengesPartialUpdateErrorResponse400:
       oneOf:
@@ -5670,6 +5730,13 @@ components:
       required:
       - errors
       - type
+    ChallengesSuggestionsCreateErrorResponse400:
+      oneOf:
+      - $ref: '#/components/schemas/ParseErrorResponse'
+      discriminator:
+        propertyName: type
+        mapping:
+          client_error: '#/components/schemas/ParseErrorResponse'
     ChallengesUpdateDifficultyIdErrorComponent:
       type: object
       properties:
@@ -5720,6 +5787,36 @@ components:
       - attr
       - code
       - detail
+    ChallengesUpdateDifficultyXpPenaltyErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - difficulty.xp_penalty
+          type: string
+          description: '* `difficulty.xp_penalty` - difficulty.xp_penalty'
+        code:
+          enum:
+          - invalid
+          - max_string_length
+          - max_value
+          - min_value
+          - 'null'
+          - required
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `max_string_length` - max_string_length
+            * `max_value` - max_value
+            * `min_value` - min_value
+            * `null` - null
+            * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
     ChallengesUpdateDueDateErrorComponent:
       type: object
       properties:
@@ -5756,6 +5853,7 @@ components:
       - $ref: '#/components/schemas/ChallengesUpdateDueDateErrorComponent'
       - $ref: '#/components/schemas/ChallengesUpdateDifficultyNonFieldErrorsErrorComponent'
       - $ref: '#/components/schemas/ChallengesUpdateDifficultyIdErrorComponent'
+      - $ref: '#/components/schemas/ChallengesUpdateDifficultyXpPenaltyErrorComponent'
       - $ref: '#/components/schemas/ChallengesUpdateOrderErrorComponent'
       discriminator:
         propertyName: attr
@@ -5768,6 +5866,7 @@ components:
           due_date: '#/components/schemas/ChallengesUpdateDueDateErrorComponent'
           difficulty.non_field_errors: '#/components/schemas/ChallengesUpdateDifficultyNonFieldErrorsErrorComponent'
           difficulty.id: '#/components/schemas/ChallengesUpdateDifficultyIdErrorComponent'
+          difficulty.xp_penalty: '#/components/schemas/ChallengesUpdateDifficultyXpPenaltyErrorComponent'
           order: '#/components/schemas/ChallengesUpdateOrderErrorComponent'
     ChallengesUpdateErrorResponse400:
       oneOf:
@@ -5966,6 +6065,87 @@ components:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
+    DifficultiesSuggestionsCreateError:
+      oneOf:
+      - $ref: '#/components/schemas/DifficultiesSuggestionsCreateNonFieldErrorsErrorComponent'
+      - $ref: '#/components/schemas/DifficultiesSuggestionsCreateTitleErrorComponent'
+      discriminator:
+        propertyName: attr
+        mapping:
+          non_field_errors: '#/components/schemas/DifficultiesSuggestionsCreateNonFieldErrorsErrorComponent'
+          title: '#/components/schemas/DifficultiesSuggestionsCreateTitleErrorComponent'
+    DifficultiesSuggestionsCreateErrorResponse400:
+      oneOf:
+      - $ref: '#/components/schemas/DifficultiesSuggestionsCreateValidationError'
+      - $ref: '#/components/schemas/ParseErrorResponse'
+      discriminator:
+        propertyName: type
+        mapping:
+          validation_error: '#/components/schemas/DifficultiesSuggestionsCreateValidationError'
+          client_error: '#/components/schemas/ParseErrorResponse'
+    DifficultiesSuggestionsCreateNonFieldErrorsErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - non_field_errors
+          type: string
+          description: '* `non_field_errors` - non_field_errors'
+        code:
+          enum:
+          - invalid
+          type: string
+          description: '* `invalid` - invalid'
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    DifficultiesSuggestionsCreateTitleErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - title
+          type: string
+          description: '* `title` - title'
+        code:
+          enum:
+          - blank
+          - invalid
+          - max_length
+          - 'null'
+          - null_characters_not_allowed
+          - required
+          - surrogate_characters_not_allowed
+          type: string
+          description: |-
+            * `blank` - blank
+            * `invalid` - invalid
+            * `max_length` - max_length
+            * `null` - null
+            * `null_characters_not_allowed` - null_characters_not_allowed
+            * `required` - required
+            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    DifficultiesSuggestionsCreateValidationError:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/ValidationErrorEnum'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/DifficultiesSuggestionsCreateError'
+      required:
+      - errors
+      - type
     Difficulty:
       type: object
       properties:
@@ -5994,13 +6174,22 @@ components:
           maxLength: 25
         xp_value:
           type: integer
-          maximum: 1000
+          maximum: 9223372036854775807
           minimum: 0
+          format: int64
           description: Number of xp value associated with this difficulty level.
+        xp_penalty:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          description: The amount of XP deducted whena challenge of this difficulty
+            is failed.
       required:
       - id
       - name
       - slug
+      - xp_penalty
       - xp_value
     Error403:
       type: object
@@ -6443,15 +6632,6 @@ components:
           minimum: -9223372036854775808
           format: int64
           description: Priority order of the step.
-    PatchedPhoneNumber:
-      type: object
-      properties:
-        phone_number:
-          type: string
-          description: Phone number of the user
-          maxLength: 128
-        otp:
-          type: string
     PatchedProfile:
       type: object
       properties:
@@ -6476,6 +6656,12 @@ components:
           type: string
           description: Name of the user
           maxLength: 255
+        age:
+          type: integer
+          maximum: 120
+          minimum: 4
+          nullable: true
+          description: Age of the user
         gender:
           allOf:
           - $ref: '#/components/schemas/GenderEnum'
@@ -6484,10 +6670,6 @@ components:
 
             * `M` - Male
             * `F` - Female
-        phone_number:
-          type: string
-          readOnly: true
-          description: Phone number of the user
         avatar:
           type: string
           format: uri
@@ -6551,6 +6733,12 @@ components:
           type: string
           description: Name of the user
           maxLength: 255
+        age:
+          type: integer
+          maximum: 120
+          minimum: 4
+          nullable: true
+          description: Age of the user
         gender:
           allOf:
           - $ref: '#/components/schemas/GenderEnum'
@@ -6559,10 +6747,6 @@ components:
 
             * `M` - Male
             * `F` - Female
-        phone_number:
-          type: string
-          readOnly: true
-          description: Phone number of the user
         avatar:
           type: string
           format: uri
@@ -6608,7 +6792,6 @@ components:
       - level
       - level_title
       - links
-      - phone_number
       - rank
       - total_xp
       - username
@@ -6692,21 +6875,6 @@ components:
         * `active` - Active
         * `completed` - Completed
         * `failed` - Failed
-    SuggestUsername:
-      type: object
-      properties:
-        success:
-          type: boolean
-        message:
-          type: string
-        data:
-          type: array
-          items:
-            type: string
-      required:
-      - data
-      - message
-      - success
     UserAvatarLink:
       type: object
       properties:
