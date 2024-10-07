@@ -22,8 +22,8 @@ from .utils import calculate_level
 
 class UserModel(DirtyFieldsMixin, AbstractUser):
     class Gender(models.TextChoices):
-        MALE = "M", _("Male")
-        FEMALE = "F", _("Female")
+        MALE = "male", _("Male")
+        FEMALE = "female", _("Female")
 
     username_validator = UnicodeUsernameValidator()
 

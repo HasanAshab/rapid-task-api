@@ -24,10 +24,10 @@ class Challenge(DirtyFieldsMixin, models.Model):
         FAILED = "failed", _("Failed")
 
     class RepeatType(models.TextChoices):
-        ONCE = "O", _("One time Only")
-        DAILY = "D", _("Daily")
-        WEEKLY = "W", _("Weekly")
-        MONTHLY = "M", _("Monthly")
+        ONCE = "once", _("One time Only")
+        DAILY = "daily", _("Daily")
+        WEEKLY = "weekly", _("Weekly")
+        MONTHLY = "monthly", _("Monthly")
 
     title = models.CharField(
         _("Title"),
@@ -43,7 +43,7 @@ class Challenge(DirtyFieldsMixin, models.Model):
     )
     repeat_type = models.CharField(
         _("Repeat type"),
-        max_length=1,
+        max_length=10,
         choices=RepeatType,
         default=RepeatType.ONCE,
         help_text=_("How often the challenge repeats."),
