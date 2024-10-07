@@ -243,26 +243,32 @@ SCHEDULED_COMMANDS = [
         "enabled": True,
         "schedule": ScheduleType.DAILY,
         "command": "update_ranking",
-        "args": args(chunk=1000),
+        "args": args(chunk=100),
+    },
+    {
+        "enabled": True,
+        "schedule": ScheduleType.DAILY,
+        "command": "remove_expired_challenges",
+        "args": args(chunk=50),
     },
     {
         "enabled": True,
         "schedule": ScheduleType.DAILY,
         "command": "reset_repeated_challenges",
-        "args": args("D", chunk=1000),
+        "args": args("D", chunk=50),
     },
     {
         "enabled": True,
         "schedule": ScheduleType.WEEKLY,
         "task": "reset_repeated_challenges",
         "args": ["W"],
-        "args": args("W", chunk=1000),
+        "args": args("W", chunk=50),
     },
     {
         "enabled": True,
         "schedule": ScheduleType.MONTHLY,
         "task": "reset_repeated_challenges",
-        "args": args("M", chunk=1000),
+        "args": args("M", chunk=50),
     },
 ]
 

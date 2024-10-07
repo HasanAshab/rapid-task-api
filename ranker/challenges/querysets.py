@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 
 
@@ -33,6 +34,15 @@ class ChallengeQuerySet(models.QuerySet):
 
     def monthly(self):
         return self.filter(repeat_type=self.model.RepeatType.MONTHLY)
+
+    def expired(self):
+        return self.filter(due_date__lt=timezone.now())
+
+    def unexpired(self):
+        return self.filter(
+            models.Q(due_date__isnull=True)
+            | models.Q(due_date__gt=timezone.now())
+        )
 
     def mark_as_active(self):
         return self.update(status=self.model.Status.ACTIVE)
