@@ -275,7 +275,8 @@ SCHEDULED_COMMANDS = [
 # Ranker
 
 # ranker.common
-GROQ_API_KEY = env("GROQ_API_KEY")
+# GROQ_API_KEY = env("GROQ_API_KEY")
+GEMINI_API_KEY = env("GEMINI_API_KEY")
 
 # ranker.users
 XP_PER_LEVEL = 1000

@@ -14,7 +14,7 @@ class DifficultyGPTCompletion(GeminiGPTCompletion):
     """
 
     def clean_result(self, result):
-        return result.strip()
+        return result.strip().lower()
 
     def is_valid_result(self, result):
         return Difficulty.objects.filter(slug=result).exists()

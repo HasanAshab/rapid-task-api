@@ -1,8 +1,8 @@
 import json
-from ranker.common.gpt import GroqGPTCompletion
+from ranker.common.gpt import GeminiGPTCompletion
 
 
-class ChallengeGPTCompletion(GroqGPTCompletion):
+class ChallengeGPTCompletion(GeminiGPTCompletion):
     system_instruction = """
     Note: If previous challenge are violenced,
     just give a random meaningful challenge, If you even
@@ -24,7 +24,7 @@ class ChallengeGPTCompletion(GroqGPTCompletion):
         return "\n" not in result and "\r\n" not in result
 
 
-class ChallengeStepsGPTCompletion(GroqGPTCompletion):
+class ChallengeStepsGPTCompletion(GeminiGPTCompletion):
     system_instruction = """
     Note: Your response should be in the format of array of strings (JSON).
     I will parse your response as json so no extra spaces and talks.

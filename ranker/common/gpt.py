@@ -74,7 +74,6 @@ class GeminiGPTCompletion(BaseGPTCompletion):
     MODEL = "gemini-1.5-pro"
 
     def get_api_key(self):
-        return "AIzaSyAwoeGN9FW5mKfU-eqA63XCfGLss9I_ML8"
         return settings.GEMINI_API_KEY
 
     def get_client(self):
@@ -87,6 +86,5 @@ class GeminiGPTCompletion(BaseGPTCompletion):
         )
 
     def get_result(self):
-        r = self._client.generate_content(self._message)
-        print(r)
-        return r.text
+        content = self._client.generate_content(self._message)
+        return content.text
