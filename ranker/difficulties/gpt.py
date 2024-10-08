@@ -1,9 +1,9 @@
-from ranker.common.gpt import GroqGPTCompletion
+from ranker.common.gpt import GeminiGPTCompletion
 from .models import Difficulty
 
 
-class DifficultyGPTCompletion(GroqGPTCompletion):
-    system_message = """
+class DifficultyGPTCompletion(GeminiGPTCompletion):
+    system_instruction = """
     Note: response should be only the difficulty name,
     no extra spaces and talks.
 

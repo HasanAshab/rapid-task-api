@@ -3,7 +3,7 @@ from ranker.common.gpt import GroqGPTCompletion
 
 
 class ChallengeGPTCompletion(GroqGPTCompletion):
-    system_message = """
+    system_instruction = """
     Note: If previous challenge are violenced,
     just give a random meaningful challenge, If you even
     get a single challenge as safe give similar suggestion
@@ -25,7 +25,7 @@ class ChallengeGPTCompletion(GroqGPTCompletion):
 
 
 class ChallengeStepsGPTCompletion(GroqGPTCompletion):
-    system_message = """
+    system_instruction = """
     Note: Your response should be in the format of array of strings (JSON).
     I will parse your response as json so no extra spaces and talks.
 

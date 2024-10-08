@@ -3,7 +3,7 @@ from django.conf import settings
 
 
 class BaseGPTCompletion:
-    MAX_ATTEMPTS = 3
+    MAX_ATTEMPTS = 1
     API_KEY = None
     fallback_result = None
 
@@ -13,7 +13,7 @@ class BaseGPTCompletion:
 
     @property
     @abstractmethod
-    def system_message():
+    def system_instruction():
         pass
 
     @abstractmethod
@@ -32,7 +32,7 @@ class BaseGPTCompletion:
         completion = self._client.chat.completions.create(
             model=self.MODEL,
             messages=[
-                {"role": "system", "content": self.system_message},
+                {"role": "system", "content": self.system_instruction},
                 {"role": "user", "content": self._message},
             ],
         )
@@ -68,3 +68,25 @@ class GroqGPTCompletion(BaseGPTCompletion):
         from groq import Groq
 
         return Groq(api_key=self.get_api_key())
+
+
+class GeminiGPTCompletion(BaseGPTCompletion):
+    MODEL = "gemini-1.5-pro"
+
+    def get_api_key(self):
+        return "AIzaSyAwoeGN9FW5mKfU-eqA63XCfGLss9I_ML8"
+        return settings.GEMINI_API_KEY
+
+    def get_client(self):
+        import google.generativeai as genai
+
+        genai.configure(api_key=self.get_api_key())
+        return genai.GenerativeModel(
+            model_name=self.MODEL,
+            system_instruction=self.system_instruction,
+        )
+
+    def get_result(self):
+        r = self._client.generate_content(self._message)
+        print(r)
+        return r.text
