@@ -4,7 +4,7 @@ from .base import env, BASE_DIR
 
 DEBUG = False
 
-ALLOWED_HOSTS = ["ranker.pythonanywhere.com"]
+ALLOWED_HOSTS = ["*"]
 
 # CACHE NOT REQUIRED FOR NOW
 # CACHES = {
