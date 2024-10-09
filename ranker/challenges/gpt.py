@@ -4,6 +4,8 @@ from ranker.common.gpt import GeminiGPTCompletion
 
 class ChallengeGPTCompletion(GeminiGPTCompletion):
     system_instruction = """
+    You are a challenge generator.
+
     Note: If previous challenge are violenced,
     just give a random meaningful challenge, If you even
     get a single challenge as safe give similar suggestion
