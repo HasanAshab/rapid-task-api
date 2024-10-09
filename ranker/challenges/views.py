@@ -15,7 +15,7 @@ from drf_spectacular.utils import extend_schema
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_standardized_response.openapi.utils import standard_openapi_response
 from ranker.difficulties.models import Difficulty
-from .utils import suggest_challenge_title, generate_challenge_steps
+from .utils import suggest_challenge, generate_challenge_steps
 from .models import Challenge, ChallengeStep
 from .filters import ChallengeFilter
 from .serializers import (
@@ -101,12 +101,16 @@ class ChallengeActivitiesView(APIView):
             },
         }
 
-        difficulties_queryset = (
-            Difficulty.objects.with_challenge_count().filter(
-                challenge__user=self.request.user,
-                challenge__status=Challenge.Status.COMPLETED,
+        difficulties_queryset = Difficulty.objects.annotate(
+            challenge_count=models.Count(
+                "challenge",
+                filter=(
+                    models.Q(challenge__user=self.request.user)
+                    & models.Q(challenge__status=Challenge.Status.COMPLETED)
+                ),
             )
-        )
+        ).filter(challenge_count__gt=0)
+
         difficulties = ChallengeDifficultyCountSerializer(
             difficulties_queryset, many=True
         ).data
@@ -254,5 +258,6 @@ class ChallengeSuggestionView(APIView):
         }
     )
     def post(self, request):
-        challenge_title = suggest_challenge_title(request.user)
-        return Response({"title": challenge_title})
+        challenge = suggest_challenge(request.user)
+        data = ChallengeSerializer(challenge).data
+        return Response(data)

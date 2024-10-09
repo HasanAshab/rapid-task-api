@@ -1,17 +1,35 @@
 from django.db import transaction
+
+# from ranker.difficulties.utils import suggest_difficulty_for
+
+
+from ranker.difficulties.models import Difficulty
+
 from ranker.users.models import User
 from .gpt import ChallengeGPTCompletion, ChallengeStepsGPTCompletion
 from .models import Challenge, ChallengeStep
 
 
-def suggest_challenge_title(user: User) -> Challenge:
+def suggest_challenge_title(user: User) -> str:
     latest_challenges = user.challenge_set.order_by("-id")[:10].values_list(
         "title", flat=True
     )
     joined_titles = ", ".join(latest_challenges)
-    print(joined_titles)
     completion = ChallengeGPTCompletion(joined_titles)
     return completion.create()
+
+
+def suggest_challenge(user: User) -> Challenge:
+    challenge_title = "do a 100km run"  # suggest_challenge_title(user)
+    difficulty = (
+        Difficulty.objects.first()
+    )  # suggest_difficulty_for(request.user, challenge_title)
+    challenge = Challenge(
+        user=user,
+        difficulty=difficulty,
+        title=challenge_title,
+    )
+    return challenge
 
 
 def generate_challenge_steps(challenge: Challenge) -> list[ChallengeStep]:
