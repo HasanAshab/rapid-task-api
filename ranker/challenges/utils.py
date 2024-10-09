@@ -1,10 +1,5 @@
 from django.db import transaction
-
-# from ranker.difficulties.utils import suggest_difficulty_for
-
-
-from ranker.difficulties.models import Difficulty
-
+from ranker.difficulties.utils import suggest_difficulty_for
 from ranker.users.models import User
 from .gpt import ChallengeGPTCompletion, ChallengeStepsGPTCompletion
 from .models import Challenge, ChallengeStep
@@ -20,10 +15,8 @@ def suggest_challenge_title(user: User) -> str:
 
 
 def suggest_challenge(user: User) -> Challenge:
-    challenge_title = "do a 100km run"  # suggest_challenge_title(user)
-    difficulty = (
-        Difficulty.objects.first()
-    )  # suggest_difficulty_for(request.user, challenge_title)
+    challenge_title = suggest_challenge_title(user)
+    difficulty = suggest_difficulty_for(user, challenge_title)
     challenge = Challenge(
         user=user,
         difficulty=difficulty,

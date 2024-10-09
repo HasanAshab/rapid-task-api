@@ -78,6 +78,11 @@ class ChallengeStepSerializer(serializers.ModelSerializer):
 
 
 class ChallengeSuggestionSerializer(serializers.ModelSerializer):
+    difficulty = ChallengeDifficultySerializer()
+
     class Meta:
         model = Challenge
-        fields = ("title",)
+        fields = (
+            "title",
+            "difficulty",
+        )

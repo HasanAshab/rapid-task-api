@@ -259,5 +259,5 @@ class ChallengeSuggestionView(APIView):
     )
     def post(self, request):
         challenge = suggest_challenge(request.user)
-        data = ChallengeSerializer(challenge).data
+        data = ChallengeSuggestionSerializer(challenge).data
         return Response(data)
