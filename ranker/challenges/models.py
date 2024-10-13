@@ -28,7 +28,7 @@ class Challenge(DirtyFieldsMixin, models.Model):
 
     title = models.CharField(
         _("Title"),
-        max_length=50,
+        max_length=80,
         help_text=_("Title of the challenge."),
     )
     status = models.CharField(

@@ -4,30 +4,39 @@ from .models import Difficulty
 
 
 def suggest_difficulty_for(user: User, title: str) -> Difficulty:
+    difficulties = list(Difficulty.objects.all().order_by("xp_value"))
+    difficulty_map = {
+        difficulty.pk: idx + 1 for idx, difficulty in enumerate(difficulties)
+    }
+
     latest_completed_challenges = (
         user.challenge_set.completed()
-        .select_related("difficulty")
         .order_by("-id")[:10]
-        .values_list("title", "difficulty__slug")
+        .values_list("title", "difficulty_id")
     )
+
     previous_challenges_str = "\n".join(
         [
-            f"{challenge_title} --> {difficulty_slug}"
-            for challenge_title, difficulty_slug in latest_completed_challenges
+            f"{challenge_title} --> {difficulty_map.get(difficulty_id)}"
+            for challenge_title, difficulty_id in latest_completed_challenges
         ]
     )
-    difficulty_slugs = Difficulty.objects.values_list("slug", flat=True)
-    completion = DifficultyGPTCompletion(
-        f"""
-            Available Difficulties: {", ".join(difficulty_slugs)}
-            User Info:
-                Age: {user.age or "Not Available"}
-                Gender: {user.gender}
-                Level: {user.level}
-            Previusly Completed Challenges with Difficulty:
-                {previous_challenges_str or "Not Enough Data"}
-            Title of the Challenge: {title}
-        """
-    )
-    difficulty_slug = completion.create()
-    return Difficulty.objects.get(slug=difficulty_slug)
+    difficulty_count = len(difficulties)
+
+    prompt = f"""
+        Difficulty Score Range: 1 to {difficulty_count}
+        User Info:
+            Age: {user.age or "Not Available"}
+            Gender: {user.gender}
+            Level: {user.level}
+
+        Previusly Completed Challenges with Difficulty:
+            Title --> Score
+            {previous_challenges_str or "Not Enough Data"}
+
+        Title of the Challenge: {title}
+    """
+    completion = DifficultyGPTCompletion(prompt)
+    difficulty_score = completion.create()
+
+    return difficulties[difficulty_score - 1]

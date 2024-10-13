@@ -1,25 +1,25 @@
 from ranker.common.gpt import GeminiGPTCompletion
-from .models import Difficulty
 
 
 class DifficultyGPTCompletion(GeminiGPTCompletion):
     system_instruction = """
     You are a difficulty detector.
 
-    Note: response should be only the difficulty name,
+    Note: response should be only the difficulty score.
     no extra spaces and talks.
 
     Suggest difficulty for the challenge.
-    You will be provided available difficulties (from easiest to hardest),
+    You will be provided score range of difficulty (float not allowed),
     info of the user, previously completed challenges with their
-    relevant difficulty and the challenge thats difficulty to be detected.
+    difficulty score and the challenge thats difficulty to be detected.
+
+    example response: 5
     """
 
-    def get_fallback_result(self):
-        return Difficulty.objects.values_list("slug", flat=True).first()
+    fallback_result = 2
 
     def clean_result(self, result):
-        return result.strip().lower()
+        return int(result.strip())
 
     def is_valid_result(self, result):
-        return Difficulty.objects.filter(slug=result).exists()
+        return isinstance(result, int)
