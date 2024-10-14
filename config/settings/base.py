@@ -255,20 +255,19 @@ SCHEDULED_COMMANDS = [
         "enabled": True,
         "schedule": ScheduleType.DAILY,
         "command": "reset_repeated_challenges",
-        "args": args("D", chunk=50),
+        "args": args("daily", chunk=50),
     },
     {
         "enabled": True,
         "schedule": ScheduleType.WEEKLY,
         "task": "reset_repeated_challenges",
-        "args": ["W"],
-        "args": args("W", chunk=50),
+        "args": args("weekly", chunk=50),
     },
     {
         "enabled": True,
         "schedule": ScheduleType.MONTHLY,
         "task": "reset_repeated_challenges",
-        "args": args("M", chunk=50),
+        "args": args("monthly", chunk=50),
     },
 ]
 
