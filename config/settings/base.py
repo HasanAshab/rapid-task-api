@@ -240,13 +240,13 @@ SPECTACULAR_SETTINGS = {
 
 SCHEDULED_COMMANDS = [
     {
-        "enabled": True,
+        "enabled": False,
         "schedule": ScheduleType.DAILY,
         "command": "update_ranking",
         "args": args(chunk=100),
     },
     {
-        "enabled": True,
+        "enabled": False,
         "schedule": ScheduleType.DAILY,
         "command": "remove_expired_challenges",
         "args": args(chunk=50),
@@ -258,13 +258,13 @@ SCHEDULED_COMMANDS = [
         "args": args("daily", chunk=50),
     },
     {
-        "enabled": True,
+        "enabled": False,
         "schedule": ScheduleType.WEEKLY,
         "task": "reset_repeated_challenges",
         "args": args("weekly", chunk=50),
     },
     {
-        "enabled": True,
+        "enabled": False,
         "schedule": ScheduleType.MONTHLY,
         "task": "reset_repeated_challenges",
         "args": args("monthly", chunk=50),
