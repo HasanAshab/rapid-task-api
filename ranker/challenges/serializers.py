@@ -33,6 +33,7 @@ class ChallengeSerializer(serializers.ModelSerializer):
             "due_date",
             "difficulty",
             "order",
+            "ignore_for_ai",
         )
 
     def validate(self, data):
