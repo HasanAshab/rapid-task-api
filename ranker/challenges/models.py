@@ -62,6 +62,14 @@ class Challenge(DirtyFieldsMixin, models.Model):
         default=1,
         help_text=_("Priority order of the challenge."),
     )
+    ignore_for_ai = models.BooleanField(
+        _("Ignore For AI"),
+        default=False,
+        help_text=_(
+            "Exclude this challenge from AI suggestions"
+            "and difficulty predictions."
+        ),
+    )
     difficulty = models.ForeignKey(
         "difficulties.Difficulty",
         on_delete=models.CASCADE,

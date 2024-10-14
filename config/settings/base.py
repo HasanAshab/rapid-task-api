@@ -269,6 +269,12 @@ SCHEDULED_COMMANDS = [
         "task": "reset_repeated_challenges",
         "args": args("monthly", chunk=50),
     },
+    {
+        "enabled": True,
+        "schedule": ScheduleType.DAILY,
+        "task": "reassign_level_titles",
+        "args": args(chunk=50),
+    },
 ]
 
 # Ranker

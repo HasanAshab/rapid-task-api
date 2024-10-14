@@ -6,8 +6,10 @@ from .models import Challenge, ChallengeStep
 
 
 def suggest_challenge_title(user: User) -> str:
-    latest_challenges = user.challenge_set.order_by("-id")[:10].values_list(
-        "title", flat=True
+    latest_challenges = (
+        user.challenge_set.not_ignored_for_ai()
+        .order_by("-id")[:10]
+        .values_list("title", flat=True)
     )
     joined_titles = ", ".join(latest_challenges)
     completion = ChallengeGPTCompletion(joined_titles)

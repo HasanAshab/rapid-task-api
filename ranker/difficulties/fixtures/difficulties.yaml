@@ -1,10 +1,20 @@
 - model: difficulties.Difficulty
   pk: 1
   fields:
-    name: Novice
-    slug: novice
+    name: ----
+    slug: none
     light_color: "#ffffffff"
     dark_color: "#ffffffff"
+    xp_value: 0
+    xp_penalty: 1200
+    
+- model: difficulties.Difficulty
+  pk: 2
+  fields:
+    name: Very Easy
+    slug: very-easy
+    light_color: "#B2F0E6"
+    dark_color: "#4E8D74"
     xp_value: 5
     xp_penalty: 1000
 

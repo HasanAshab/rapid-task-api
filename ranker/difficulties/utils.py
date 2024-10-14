@@ -11,6 +11,7 @@ def suggest_difficulty_for(user: User, title: str) -> Difficulty:
 
     latest_completed_challenges = (
         user.challenge_set.completed()
+        .not_ignored_for_ai()
         .order_by("-id")[:10]
         .values_list("title", "difficulty_id")
     )

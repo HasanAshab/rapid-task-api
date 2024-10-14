@@ -44,6 +44,12 @@ class ChallengeQuerySet(models.QuerySet):
             | models.Q(due_date__gt=timezone.now())
         )
 
+    def ignored_for_ai(self):
+        return self.filter(ignore_for_ai=True)
+
+    def not_ignored_for_ai(self):
+        return self.filter(ignore_for_ai=False)
+
     def mark_as_active(self):
         return self.update(status=self.model.Status.ACTIVE)
 
