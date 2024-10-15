@@ -13,7 +13,7 @@ class BaseGPTCompletion:
 
     @property
     @abstractmethod
-    def system_instruction():
+    def system_instruction(self):
         pass
 
     @abstractmethod
@@ -27,16 +27,6 @@ class BaseGPTCompletion:
 
     def get_fallback_result(self):
         return self.fallback_result
-
-    def get_result(self):
-        completion = self._client.chat.completions.create(
-            model=self.MODEL,
-            messages=[
-                {"role": "system", "content": self.system_instruction},
-                {"role": "user", "content": self._message},
-            ],
-        )
-        return completion.choices[0].message.content
 
     def clean_result(self, result):
         return result
@@ -58,6 +48,13 @@ class BaseGPTCompletion:
             return result
 
 
+class JSONGPTCompletionMixin:
+    @property
+    @abstractmethod
+    def response_schema(self):
+        pass
+
+
 class GroqGPTCompletion(BaseGPTCompletion):
     MODEL = "llama3-8b-8192"
 
@@ -68,6 +65,16 @@ class GroqGPTCompletion(BaseGPTCompletion):
         from groq import Groq
 
         return Groq(api_key=self.get_api_key())
+
+    def get_result(self):
+        completion = self._client.chat.completions.create(
+            model=self.MODEL,
+            messages=[
+                {"role": "system", "content": self.system_instruction},
+                {"role": "user", "content": self._message},
+            ],
+        )
+        return completion.choices[0].message.content
 
 
 class GeminiGPTCompletion(BaseGPTCompletion):
@@ -87,4 +94,18 @@ class GeminiGPTCompletion(BaseGPTCompletion):
 
     def get_result(self):
         content = self._client.generate_content(self._message)
+        return content.text
+
+
+class GeminiJSONGPTCompletion(JSONGPTCompletionMixin, GeminiGPTCompletion):
+    def get_result(self):
+        import google.generativeai as genai
+
+        content = self._client.generate_content(
+            self._message,
+            generation_config=genai.GenerationConfig(
+                response_mime_type="application/json",
+                response_schema=self.response_schema,
+            ),
+        )
         return content.text

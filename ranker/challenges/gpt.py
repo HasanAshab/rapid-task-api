@@ -1,8 +1,8 @@
 import json
-from ranker.common.gpt import GeminiGPTCompletion
+from ranker.common import gpt
 
 
-class ChallengeGPTCompletion(GeminiGPTCompletion):
+class ChallengeGPTCompletion(gpt.GeminiGPTCompletion):
     system_instruction = """
     You are a challenge generator.
 
@@ -26,15 +26,11 @@ class ChallengeGPTCompletion(GeminiGPTCompletion):
         return "\n" not in result and "\r\n" not in result
 
 
-class ChallengeStepsGPTCompletion(GeminiGPTCompletion):
+class ChallengeStepsGPTCompletion(gpt.GeminiJSONGPTCompletion):
     system_instruction = """
-    Note: Your response should be in the format of array of strings (JSON).
-    I will parse your response as json so no extra spaces and talks.
-
+    You are a challenge steps generator.
     Break a challenge into several (maximum 5) steps.
     You will be given the challenge.
-
-    example response: ["Foo", "Bar", "Baz"]
     """
 
     fallback_result = [
@@ -46,6 +42,7 @@ class ChallengeStepsGPTCompletion(GeminiGPTCompletion):
     ]
 
     def clean_result(self, result):
+        print(result)
         try:
             return json.loads(result)
         except json.JSONDecodeError:
