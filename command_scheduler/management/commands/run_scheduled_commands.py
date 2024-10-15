@@ -14,13 +14,13 @@ class Command(BaseCommand):
         now = timezone.now()
         for command_config in settings.SCHEDULED_COMMANDS:
             if not command_config.get("enabled", True):
-                return
+                continue
             if command_config["schedule"] == ScheduleType.DAILY:
                 self._call_command(command_config)
 
             if (
                 command_config["schedule"] == ScheduleType.WEEKLY
-                and now.weekday() == 0
+                and now.weekday() == 4
             ):
                 self._call_command(command_config)
 

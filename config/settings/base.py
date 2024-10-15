@@ -260,19 +260,19 @@ SCHEDULED_COMMANDS = [
     {
         "enabled": False,
         "schedule": ScheduleType.WEEKLY,
-        "task": "reset_repeated_challenges",
+        "command": "reset_repeated_challenges",
         "args": args("weekly", chunk=50),
     },
     {
         "enabled": False,
         "schedule": ScheduleType.MONTHLY,
-        "task": "reset_repeated_challenges",
+        "command": "reset_repeated_challenges",
         "args": args("monthly", chunk=50),
     },
     {
         "enabled": True,
         "schedule": ScheduleType.DAILY,
-        "task": "reassign_level_titles",
+        "command": "reassign_level_titles",
         "args": args(chunk=50),
     },
 ]
