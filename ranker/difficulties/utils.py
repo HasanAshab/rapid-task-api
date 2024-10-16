@@ -1,3 +1,4 @@
+from django.conf import settings
 from ranker.users.models import User
 from .gpt import DifficultyGPTCompletion
 from .models import Difficulty
@@ -12,7 +13,7 @@ def suggest_difficulty_for(user: User, title: str) -> Difficulty:
     latest_completed_challenges = (
         user.challenge_set.completed()
         .not_ignored_for_ai()
-        .order_by("-id")[:10]
+        .order_by("-id")[: settings.DIFFICULTY_SUGGESTION_LOOKBACK_LIMIT]
         .values_list("title", "difficulty_id")
     )
 

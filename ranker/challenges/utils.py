@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import transaction
 from ranker.difficulties.utils import suggest_difficulty_for
 from ranker.users.models import User
@@ -8,7 +9,7 @@ from .models import Challenge, ChallengeStep
 def suggest_challenge_title(user: User) -> str:
     latest_challenges = (
         user.challenge_set.not_ignored_for_ai()
-        .order_by("-id")[:10]
+        .order_by("-id")[: settings.CHALLENGE_SUGGESTION_LOOKBACK_LIMIT]
         .values_list("title", flat=True)
     )
     joined_titles = ", ".join(latest_challenges)

@@ -1,3 +1,4 @@
+from django.conf import settings
 from ranker.common.gpt import GeminiGPTCompletion
 
 
@@ -19,7 +20,9 @@ class DifficultyGPTCompletion(GeminiGPTCompletion):
     fallback_result = 2
 
     def clean_result(self, result):
-        return round(float(result.strip()) - 0.5)
+        return round(
+            float(result.strip()) - settings.DIFFICULTY_SUGGESTION_THRESHOLD
+        )
 
     def is_valid_result(self, result):
         return isinstance(result, int)
