@@ -108,6 +108,14 @@ class Challenge(DirtyFieldsMixin, models.Model):
             self.RepeatType.MONTHLY,
         ]
 
+    def get_difficulty_score(self):
+        score = self.difficulty.score
+        if self.is_repeated:
+            score -= settings.REPEATED_CHALLENGE_SCORE_PENALTY
+        if self.is_completed:
+            score -= settings.COMPLETED_CHALLENGE_SCORE_PENALTY
+        return score
+
     def mark_as_active(self, commit=True):
         self.status = self.Status.ACTIVE
         if commit:

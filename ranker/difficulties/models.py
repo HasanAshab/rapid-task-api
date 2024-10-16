@@ -1,7 +1,9 @@
+from django.conf import settings
 from django.db import models
 from django.utils.translation import (
     gettext_lazy as _,
 )
+from django.core.validators import MinValueValidator, MaxValueValidator
 from colorfield.fields import ColorField
 
 
@@ -36,9 +38,17 @@ class Difficulty(models.Model):
             "a challenge of this difficulty is failed."
         ),
     )
+    score = models.FloatField(
+        _("Score"),
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(settings.MAX_DIFFICULTY_SCORE),
+        ],
+        help_text=_("The score of the difficulty level."),
+    )
 
     class Meta:
-        ordering = ("xp_value",)
+        ordering = ("score",)
 
     def __str__(self):
         return self.name

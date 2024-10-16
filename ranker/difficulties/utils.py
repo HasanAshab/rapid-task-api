@@ -5,34 +5,25 @@ from .models import Difficulty
 
 
 def suggest_difficulty_for(user: User, title: str) -> Difficulty:
-    difficulties = list(Difficulty.objects.all().order_by("xp_value"))
-    difficulty_map = {
-        difficulty.pk: idx + 1 for idx, difficulty in enumerate(difficulties)
-    }
-
-    latest_completed_challenges = (
-        user.challenge_set.completed()
-        .not_ignored_for_ai()
+    latest_challenges = (
+        user.challenge_set.not_ignored_for_ai()
+        .select_related("difficulty")
         .order_by("-id")[: settings.DIFFICULTY_SUGGESTION_LOOKBACK_LIMIT]
-        .values_list("title", "difficulty_id")
     )
 
     previous_challenges_str = "\n".join(
         [
-            f"{challenge_title} --> {difficulty_map.get(difficulty_id)}"
-            for challenge_title, difficulty_id in latest_completed_challenges
+            f"{challenge.title} --> {challenge.get_difficulty_score()}"
+            for challenge in latest_challenges
         ]
     )
-    difficulty_count = len(difficulties)
-
     prompt = f"""
-        Difficulty Score Range: 1 to {difficulty_count}
         User Info:
             Age: {user.age or "Not Available"}
             Gender: {user.gender}
             Level: {user.level}
 
-        Previusly Completed Challenges with Difficulty:
+        Previous Challenges with Difficulty Score:
             Title --> Score
             {previous_challenges_str or "Not Enough Data"}
 
@@ -41,4 +32,4 @@ def suggest_difficulty_for(user: User, title: str) -> Difficulty:
     completion = DifficultyGPTCompletion(prompt)
     difficulty_score = completion.create()
 
-    return difficulties[difficulty_score - 1]
+    return Difficulty.objects.filter(score__lte=difficulty_score).last()
