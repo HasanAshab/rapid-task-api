@@ -27,8 +27,21 @@ class Command(BaseCommand):
             default=1000,
             help="Chunk size",
         )
+        parser.add_argument(
+            "--no-xp",
+            action="store_true",
+            help="If specified, XP will not be mutated",
+        )
 
     def handle(self, repeat_type, **options):
+        if options["no_xp"]:
+            Challenge.objects.repeated(repeat_type).mark_as_active()
+            return self.stdout.write(
+                self.style.SUCCESS(
+                    "Successfully reset daily challenges without mutating xp"
+                )
+            )
+
         daily_challenges = (
             Challenge.objects.active()
             .repeated(repeat_type)
