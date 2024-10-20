@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
     ChallengesView,
+    GroupedChallengesView,
     ChallengeActivitiesView,
     ChallengeView,
     ChallengeOrdersView,
@@ -13,6 +14,11 @@ from .views import (
 
 urlpatterns = [
     path("challenges/", ChallengesView.as_view(), name="challenges"),
+    path(
+        "challenges/grouped/",
+        GroupedChallengesView.as_view(),
+        name="grouped_challenges",
+    ),
     path(
         "challenges/activities/",
         ChallengeActivitiesView.as_view(),

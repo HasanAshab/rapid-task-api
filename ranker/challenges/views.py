@@ -15,7 +15,11 @@ from drf_spectacular.utils import extend_schema
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_standardized_response.openapi.utils import standard_openapi_response
 from ranker.difficulties.models import Difficulty
-from .utils import suggest_challenge, generate_challenge_steps
+from .utils import (
+    group_challenges,
+    suggest_challenge,
+    generate_challenge_steps,
+)
 from .models import Challenge, ChallengeStep
 from .filters import ChallengeFilter
 from .serializers import (
@@ -51,6 +55,33 @@ class ChallengesView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class GroupedChallengesView(APIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ChallengeSerializer
+    pagination_class = ChallengePagination
+    queryset = Challenge.objects.none()
+    filter_backends = (
+        filters.SearchFilter,
+        DjangoFilterBackend,
+    )
+    # search_fields = ("@title", "@description")
+    search_fields = ("title", "steps__title")
+    filterset_class = ChallengeFilter
+
+    def get_queryset(self):
+        return (
+            self.request.user.challenge_set.active()
+            .unexpired()
+            .select_related("difficulty")
+        )
+
+    def get(self, request):
+        queryset = self.get_queryset()
+        serializer = self.serializer_class(queryset, many=True)
+        grouped_challenges = group_challenges(serializer.data)
+        return Response(grouped_challenges)
 
 
 class ChallengeView(RetrieveUpdateDestroyAPIView):

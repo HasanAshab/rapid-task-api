@@ -2,8 +2,17 @@ from django.conf import settings
 from django.db import transaction
 from ranker.difficulties.utils import suggest_difficulty_for
 from ranker.users.models import User
-from .gpt import ChallengeGPTCompletion, ChallengeStepsGPTCompletion
+from .gpt import (
+    GroupChallengeGPTCompletion,
+    ChallengeGPTCompletion,
+    ChallengeStepsGPTCompletion,
+)
 from .models import Challenge, ChallengeStep
+
+
+def group_challenges(challenges) -> list[dict]:
+    completion = GroupChallengeGPTCompletion(challenges)
+    return completion.create()
 
 
 def suggest_challenge_title(user: User) -> str:

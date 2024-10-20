@@ -2,6 +2,24 @@ import json
 from ranker.common import gpt
 
 
+class GroupChallengeGPTCompletion(gpt.GeminiJSONGPTCompletion):
+    system_instruction = """
+    You are a challenge grouper.
+    group the challenges based on their similarities
+
+    for example:
+    push ups, planks, squats will be in the same group Workouts
+    extract data from people will be in the same group Manupilation
+    """
+
+    def clean_result(self, result):
+        print(result)
+        return result.strip()
+
+    def is_valid_result(self, result):
+        return "\n" not in result and "\r\n" not in result
+
+
 class ChallengeGPTCompletion(gpt.GeminiGPTCompletion):
     system_instruction = """
     You are a challenge generator.
