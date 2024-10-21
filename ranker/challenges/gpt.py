@@ -1,23 +1,24 @@
-import json
 from ranker.common import gpt
+from typing import TypedDict
+
+
+class ChallengeGroup(TypedDict):
+    group: str
+    challenges: list[int]
 
 
 class GroupChallengeGPTCompletion(gpt.GeminiJSONGPTCompletion):
+    response_schema = list[ChallengeGroup]
+
     system_instruction = """
     You are a challenge grouper.
+    You will be provided a list of challenges with their index.
     group the challenges based on their similarities
 
     for example:
     push ups, planks, squats will be in the same group Workouts
     extract data from people will be in the same group Manupilation
     """
-
-    def clean_result(self, result):
-        print(result)
-        return result.strip()
-
-    def is_valid_result(self, result):
-        return "\n" not in result and "\r\n" not in result
 
 
 class ChallengeGPTCompletion(gpt.GeminiGPTCompletion):
@@ -45,6 +46,8 @@ class ChallengeGPTCompletion(gpt.GeminiGPTCompletion):
 
 
 class ChallengeStepsGPTCompletion(gpt.GeminiJSONGPTCompletion):
+    response_schema = list[str]
+
     system_instruction = """
     You are a challenge steps generator.
     Break a challenge into several (maximum 5) steps.
@@ -58,15 +61,3 @@ class ChallengeStepsGPTCompletion(gpt.GeminiJSONGPTCompletion):
         "Gather necessary resources",
         "Review and adjust the plan",
     ]
-
-    def clean_result(self, result):
-        print(result)
-        try:
-            return json.loads(result)
-        except json.JSONDecodeError:
-            return result
-
-    def is_valid_result(self, result):
-        return isinstance(result, list) and all(
-            isinstance(step, str) for step in result
-        )

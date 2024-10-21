@@ -1,3 +1,4 @@
+import json
 from abc import abstractmethod
 from django.conf import settings
 
@@ -53,6 +54,15 @@ class JSONGPTCompletionMixin:
     @abstractmethod
     def response_schema(self):
         pass
+
+    def clean_result(self, result):
+        try:
+            return json.loads(result)
+        except json.JSONDecodeError:
+            return result
+
+    def is_valid_result(self, result):
+        return isinstance(result, object)
 
 
 class GroqGPTCompletion(BaseGPTCompletion):

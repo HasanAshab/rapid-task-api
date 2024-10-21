@@ -78,9 +78,9 @@ class GroupedChallengesView(APIView):
         )
 
     def get(self, request):
-        queryset = self.get_queryset()
-        serializer = self.serializer_class(queryset, many=True)
-        grouped_challenges = group_challenges(serializer.data)
+        challenges = self.get_queryset()
+
+        grouped_challenges = group_challenges(challenges)
         return Response(grouped_challenges)
 
 

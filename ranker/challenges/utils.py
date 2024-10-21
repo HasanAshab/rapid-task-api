@@ -10,8 +10,14 @@ from .gpt import (
 from .models import Challenge, ChallengeStep
 
 
-def group_challenges(challenges) -> list[dict]:
-    completion = GroupChallengeGPTCompletion(challenges)
+def group_challenges(challenges: list[Challenge]) -> list[dict]:
+    challenges_str = "\n".join(
+        [
+            f"{i} --> {challenge.title}"
+            for i, challenge in enumerate(challenges)
+        ]
+    )
+    completion = GroupChallengeGPTCompletion(challenges_str)
     return completion.create()
 
 
