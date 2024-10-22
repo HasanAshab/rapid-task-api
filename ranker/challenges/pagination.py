@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from rest_framework.pagination import (
-    LimitOffsetPagination,
+    CursorPagination,
 )
 from drf_pagination_meta_wrap.mixins import WrapPaginationMetadataMixin
 from ranker.difficulties.models import Difficulty
@@ -11,7 +11,9 @@ from .serializers import (
 )
 
 
-class ChallengePagination(WrapPaginationMetadataMixin, LimitOffsetPagination):
+class ChallengePagination(WrapPaginationMetadataMixin, CursorPagination):
+    ordering = ("-id",)
+
     def get_additional_metadata(self):
         difficulties_queryset = Difficulty.objects.annotate(
             challenge_count=models.Count(
