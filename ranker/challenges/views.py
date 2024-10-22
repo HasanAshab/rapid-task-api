@@ -60,8 +60,7 @@ class ChallengesView(ListCreateAPIView):
 
 class GroupedChallengesView(APIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = ChallengeSerializer
-    pagination_class = ChallengePagination
+    # pagination_class = ChallengePagination
     queryset = Challenge.objects.none()
     filter_backends = (
         filters.SearchFilter,
@@ -78,9 +77,13 @@ class GroupedChallengesView(APIView):
             .select_related("difficulty")
         )
 
+    @extend_schema(
+        responses={
+            status.HTTP_200_OK: GroupedChallengeSerializer(many=True),
+        }
+    )
     def get(self, request):
         challenges = self.get_queryset()
-
         grouped_challenges = group_challenges(challenges)
         data = GroupedChallengeSerializer(grouped_challenges, many=True).data
         return Response(data)
