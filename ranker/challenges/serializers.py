@@ -12,6 +12,7 @@ class ChallengeDifficultySerializer(serializers.ModelSerializer):
         read_only_fields = (
             "name",
             "slug",
+            "score",
             "xp_value",
             "xp_penalty",
             "light_color",
