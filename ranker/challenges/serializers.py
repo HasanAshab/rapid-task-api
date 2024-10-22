@@ -44,6 +44,11 @@ class ChallengeSerializer(serializers.ModelSerializer):
         return data
 
 
+class GroupedChallengeSerializer(serializers.Serializer):
+    group = serializers.CharField()
+    challenges = serializers.ListField(child=ChallengeSerializer())
+
+
 class ChallengeDifficultyCountSerializer(serializers.ModelSerializer):
     challenge_count = serializers.IntegerField()
 

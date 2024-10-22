@@ -24,6 +24,7 @@ from .models import Challenge, ChallengeStep
 from .filters import ChallengeFilter
 from .serializers import (
     ChallengeSerializer,
+    GroupedChallengeSerializer,
     ChallengeActivitiesSerializer,
     ChallengeDifficultyCountSerializer,
     ReOrderingSerializer,
@@ -81,7 +82,8 @@ class GroupedChallengesView(APIView):
         challenges = self.get_queryset()
 
         grouped_challenges = group_challenges(challenges)
-        return Response(grouped_challenges)
+        data = GroupedChallengeSerializer(grouped_challenges, many=True).data
+        return Response(data)
 
 
 class ChallengeView(RetrieveUpdateDestroyAPIView):

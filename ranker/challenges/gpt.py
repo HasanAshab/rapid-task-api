@@ -1,23 +1,21 @@
 from ranker.common import gpt
-from typing import TypedDict
-
-
-class ChallengeGroup(TypedDict):
-    group: str
-    challenges: list[int]
+from .serializers import GroupedChallengeSerializer
 
 
 class GroupChallengeGPTCompletion(gpt.GeminiJSONGPTCompletion):
-    response_schema = list[ChallengeGroup]
+    response_schema = GroupedChallengeSerializer().to_representation()
 
     system_instruction = """
     You are a challenge grouper.
+
     You will be provided a list of challenges with their index.
-    group the challenges based on their similarities
+    group the challenges based on their similarities. if some
+    challenges are not similar, add them to `others` group.
 
     for example:
     push ups, planks, squats will be in the same group Workouts
     extract data from people will be in the same group Manupilation
+    foo, bar, baz will be in the same group Others
     """
 
 

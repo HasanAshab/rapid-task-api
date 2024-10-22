@@ -11,6 +11,7 @@ from .models import Challenge, ChallengeStep
 
 
 def group_challenges(challenges: list[Challenge]) -> list[dict]:
+    challenges = list(challenges)
     challenges_str = "\n".join(
         [
             f"{i} --> {challenge.title}"
@@ -18,7 +19,10 @@ def group_challenges(challenges: list[Challenge]) -> list[dict]:
         ]
     )
     completion = GroupChallengeGPTCompletion(challenges_str)
-    return completion.create()
+    grouped_challenges = completion.create()
+    for group in grouped_challenges:
+        group["challenges"] = [challenges[i] for i in group["challenges"]]
+    return grouped_challenges
 
 
 def suggest_challenge_title(user: User) -> str:
