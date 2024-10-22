@@ -3,7 +3,7 @@ from .serializers import GroupedChallengeSerializer
 
 
 class GroupChallengeGPTCompletion(gpt.GeminiJSONGPTCompletion):
-    response_schema = GroupedChallengeSerializer().to_representation()
+    response_schema = GroupedChallengeSerializer
 
     system_instruction = """
     You are a challenge grouper.
