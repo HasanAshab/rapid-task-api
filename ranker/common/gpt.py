@@ -50,10 +50,21 @@ class BaseGPTCompletion:
 
 
 class JSONGPTCompletionMixin:
-    @property
-    @abstractmethod
-    def response_schema(self):
-        pass
+    response_schema = None
+    valid_response_type = None
+
+    def get_response_schema(self):
+        if not self.response_schema:
+            raise Exception("response_schema is not set")
+        return self.response_schema
+
+    def get_valid_response_type(self):
+        valid_response_type = (
+            self.valid_response_type or self.get_response_schema()
+        )
+        if not valid_response_type:
+            raise Exception("valid_response_type is not set")
+        return valid_response_type
 
     def clean_result(self, result):
         try:
@@ -62,7 +73,7 @@ class JSONGPTCompletionMixin:
             return result
 
     def is_valid_result(self, result):
-        return isinstance(result, object)
+        return isinstance(result, self.get_valid_response_type())
 
 
 class GroqGPTCompletion(BaseGPTCompletion):
@@ -115,7 +126,7 @@ class GeminiJSONGPTCompletion(JSONGPTCompletionMixin, GeminiGPTCompletion):
             self._message,
             generation_config=genai.GenerationConfig(
                 response_mime_type="application/json",
-                response_schema=self.response_schema,
+                response_schema=self.get_response_schema(),
             ),
         )
         return content.text

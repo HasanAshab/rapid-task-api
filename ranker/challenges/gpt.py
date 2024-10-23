@@ -9,7 +9,7 @@ class ChallengeGroup(TypedDict):
 
 class GroupChallengeGPTCompletion(gpt.GeminiJSONGPTCompletion):
     response_schema = list[ChallengeGroup]
-
+    valid_response_type = list
     system_instruction = """
     You are a challenge grouper.
 
@@ -24,7 +24,8 @@ class GroupChallengeGPTCompletion(gpt.GeminiJSONGPTCompletion):
     """
 
 
-class ChallengeGPTCompletion(gpt.GeminiGPTCompletion):
+class ChallengeGPTCompletion(gpt.GeminiJSONGPTCompletion):
+    response_schema = str
     system_instruction = """
     You are a challenge generator.
 
@@ -35,28 +36,17 @@ class ChallengeGPTCompletion(gpt.GeminiGPTCompletion):
 
     Give a new challenge based on previous challenges.
     Your response should be only the challenge title.
-
-    example response: Foo bar baz
     """
-
     fallback_result = "Complete a 5K run in under 30 minutes"
-
-    def clean_result(self, result):
-        return result.strip()
-
-    def is_valid_result(self, result):
-        return "\n" not in result and "\r\n" not in result
 
 
 class ChallengeStepsGPTCompletion(gpt.GeminiJSONGPTCompletion):
     response_schema = list[str]
-
     system_instruction = """
     You are a challenge steps generator.
     Break a challenge into several (maximum 5) steps.
     You will be given the challenge.
     """
-
     fallback_result = [
         "Identify the main objective",
         "Break down the objective into smaller steps",
