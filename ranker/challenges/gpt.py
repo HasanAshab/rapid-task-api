@@ -1,5 +1,5 @@
 from ranker.common import gpt
-from typing import TypedDict
+from typing_extensions import TypedDict
 
 
 class ChallengeGroup(TypedDict):
