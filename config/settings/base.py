@@ -237,6 +237,7 @@ SPECTACULAR_SETTINGS = {
 
 
 # Command Scheduler
+import calendar
 
 SCHEDULED_COMMANDS = [
     {
@@ -253,9 +254,15 @@ SCHEDULED_COMMANDS = [
     },
     {
         "enabled": True,
-        "schedule": ScheduleType.DAILY,
+        "schedule": {"type": ScheduleType.DAILY, "exclude": [calendar.FRIDAY]},
         "command": "reset_repeated_challenges",
         "args": args("daily", chunk=50),
+    },
+    {
+        "enabled": True,
+        "schedule": {"type": ScheduleType.WEEKLY, "day": calendar.FRIDAY},
+        "command": "reset_repeated_challenges",
+        "args": args("daily", chunk=50, no_xp=True),
     },
     {
         "enabled": False,
