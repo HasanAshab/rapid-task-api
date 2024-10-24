@@ -1,15 +1,14 @@
 from ranker.common import gpt
-from typing_extensions import TypedDict
+from pydantic import RootModel, BaseModel
 
 
-class ChallengeGroup(TypedDict):
+class ChallengeGroupModel(BaseModel):
     group: str
     challenges: list[int]
 
 
 class GroupChallengeGPTCompletion(gpt.GeminiJSONGPTCompletion):
-    response_schema = list[ChallengeGroup]
-    valid_response_type = list
+    response_schema = RootModel[list[ChallengeGroupModel]]
     system_instruction = """
     You are a challenge grouper.
 
@@ -25,7 +24,7 @@ class GroupChallengeGPTCompletion(gpt.GeminiJSONGPTCompletion):
 
 
 class ChallengeGPTCompletion(gpt.GeminiJSONGPTCompletion):
-    response_schema = str
+    response_schema = RootModel[str]
     system_instruction = """
     You are a challenge generator.
 
@@ -41,7 +40,7 @@ class ChallengeGPTCompletion(gpt.GeminiJSONGPTCompletion):
 
 
 class ChallengeStepsGPTCompletion(gpt.GeminiJSONGPTCompletion):
-    response_schema = list[str]
+    response_schema = RootModel[list[str]]
     system_instruction = """
     You are a challenge steps generator.
     Break a challenge into several (maximum 5) steps.

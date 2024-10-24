@@ -1,4 +1,5 @@
 import json
+from pydantic import BaseModel, ValidationError
 from abc import abstractmethod
 from django.conf import settings
 
@@ -42,6 +43,10 @@ class BaseGPTCompletion:
                 return result
         return self.get_fallback_result()
 
+    @abstractmethod
+    def get_result(self):
+        pass
+
     def generate(self):
         dirty_result = self.get_result()
         result = self.clean_result(dirty_result)
@@ -50,21 +55,10 @@ class BaseGPTCompletion:
 
 
 class JSONGPTCompletionMixin:
-    response_schema = None
-    valid_response_type = None
-
-    def get_response_schema(self):
-        if not self.response_schema:
-            raise Exception("response_schema is not set")
-        return self.response_schema
-
-    def get_valid_response_type(self):
-        valid_response_type = (
-            self.valid_response_type or self.get_response_schema()
-        )
-        if not valid_response_type:
-            raise Exception("valid_response_type is not set")
-        return valid_response_type
+    @property
+    @abstractmethod
+    def response_schema(self) -> BaseModel:
+        pass
 
     def clean_result(self, result):
         try:
@@ -73,7 +67,11 @@ class JSONGPTCompletionMixin:
             return result
 
     def is_valid_result(self, result):
-        return isinstance(result, self.get_valid_response_type())
+        try:
+            self.response_schema.model_validate(result)
+            return True
+        except ValidationError:
+            return False
 
 
 class GroqGPTCompletion(BaseGPTCompletion):
@@ -126,7 +124,7 @@ class GeminiJSONGPTCompletion(JSONGPTCompletionMixin, GeminiGPTCompletion):
             self._message,
             generation_config=genai.GenerationConfig(
                 response_mime_type="application/json",
-                response_schema=self.get_response_schema(),
+                response_schema=self.response_schema,
             ),
         )
         return content.text
