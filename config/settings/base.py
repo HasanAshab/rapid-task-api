@@ -260,7 +260,7 @@ SCHEDULED_COMMANDS = [
     },
     {
         "enabled": True,
-        "schedule": {"type": ScheduleType.WEEKLY, "day": calendar.FRIDAY},
+        "schedule": {"type": ScheduleType.WEEKLY, "weekday": calendar.FRIDAY},
         "command": "reset_repeated_challenges",
         "args": args("daily", chunk=50, no_xp=True),
     },

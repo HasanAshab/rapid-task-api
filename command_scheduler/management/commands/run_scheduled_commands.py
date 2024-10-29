@@ -1,3 +1,4 @@
+import calendar
 from django.conf import settings
 from django.core import management
 from django.core.management.base import (
@@ -7,34 +8,60 @@ from django.utils import timezone
 from command_scheduler.enums import ScheduleType
 
 
+class CommandSchedule:
+    def __init__(self, schedule):
+        self._schedule = schedule
+        self.day = 1
+        self.weekday = calendar.FRIDAY
+        self.exclude = []
+        if isinstance(schedule, dict):
+            self.type = schedule["type"]
+            if "day" in schedule:
+                self.day = schedule["day"]
+            if "weekday" in schedule:
+                self.weekday = schedule["weekday"]
+            if "exclude" in schedule:
+                self.exclude = schedule["exclude"]
+        else:
+            self.type = schedule
+
+    def should_run_today(self):
+        now = timezone.now()
+        if (
+            self.type == ScheduleType.DAILY
+            and now.weekday() not in self.exclude
+        ):
+            return True
+        if self.type == ScheduleType.WEEKLY and self.weekday == now.weekday():
+            return True
+        if self.type == ScheduleType.MONTHLY and self.day == now.day():
+            return True
+        return False
+
+
+class ScheduledCommand:
+    def __init__(self, config):
+        args = config.get("args", {})
+        self._config = config
+        self.name = config["command"]
+        self.enabled = config.get("enabled", True)
+        self.schedule = CommandSchedule(config["schedule"])
+        self.positional_args = args.get("args", [])
+        self.optional_args = args.get("options", {})
+
+    def run(self):
+        management.call_command(
+            self.name, *self.positional_args, **self.optional_args
+        )
+
+
 class Command(BaseCommand):
     help = "Run scheduled commands"
 
     def handle(self, *args, **kwargs):
-        now = timezone.now()
-        for command_config in settings.SCHEDULED_COMMANDS:
-            if not command_config.get("enabled", True):
+        for config in settings.SCHEDULED_COMMANDS:
+            scheduled_command = ScheduledCommand(config)
+            if not scheduled_command.enabled:
                 continue
-            if command_config["schedule"] == ScheduleType.DAILY:
-                self._call_command(command_config)
-
-            if (
-                command_config["schedule"] == ScheduleType.WEEKLY
-                and now.weekday() == 4
-            ):
-                self._call_command(command_config)
-
-            if (
-                command_config["schedule"] == ScheduleType.MONTHLY
-                and now.day == 1
-            ):
-                self._call_command(command_config)
-
-    def _call_command(self, command_config):
-        command_name = command_config["command"]
-        args = command_config.get("args", {})
-        positional_args = args.get("args", [])
-        optional_args = args.get("options", {})
-        management.call_command(
-            command_name, *positional_args, **optional_args
-        )
+            if scheduled_command.schedule.should_run_today():
+                scheduled_command.run()

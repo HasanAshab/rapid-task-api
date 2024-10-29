@@ -2,6 +2,6 @@ from enum import Enum
 
 
 class ScheduleType(Enum):
-    DAILY = "daily"
-    WEEKLY = "weekly"
-    MONTHLY = "monthly"
+    DAILY = 1
+    WEEKLY = 2
+    MONTHLY = 3
