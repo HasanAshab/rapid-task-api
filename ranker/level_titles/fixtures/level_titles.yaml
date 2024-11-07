@@ -93,3 +93,35 @@
     required_level: 70
     light_color: "#34495e"
     dark_color: "#2c3e50"
+
+- model: level_titles.LevelTitle
+  pk: 13
+  fields:
+    title: Titan I
+    required_level: 72
+    light_color: "#34495e"
+    dark_color: "#2c3e50"
+
+- model: level_titles.LevelTitle
+  pk: 14
+  fields:
+    title: Titan II
+    required_level: 74
+    light_color: "#34495e"
+    dark_color: "#2c3e50"
+
+- model: level_titles.LevelTitle
+  pk: 15
+  fields:
+    title: Titan III
+    required_level: 75
+    light_color: "#34495e"
+    dark_color: "#2c3e50"
+
+- model: level_titles.LevelTitle
+  pk: 16
+  fields:
+    title: ~Monster~
+    required_level: 80
+    light_color: "#34495e"
+    dark_color: "#2c3e50"
