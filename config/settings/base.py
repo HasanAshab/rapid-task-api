@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import calendar
 from pathlib import Path
 from datetime import timedelta
 from corsheaders.defaults import (
@@ -17,8 +18,7 @@ from corsheaders.defaults import (
 )
 from environ import Env
 from command_scheduler.enums import ScheduleType
-from command_scheduler.utils import args
-
+from command_scheduler.utils import ScheduledCommand, CommandSchedule, args
 
 SITE_ID = 1
 
@@ -237,51 +237,52 @@ SPECTACULAR_SETTINGS = {
 
 
 # Command Scheduler
-import calendar
 
 SCHEDULED_COMMANDS = [
-    {
-        "enabled": False,
-        "schedule": ScheduleType.DAILY,
-        "command": "update_ranking",
-        "args": args(chunk=100),
-    },
-    {
-        "enabled": False,
-        "schedule": ScheduleType.DAILY,
-        "command": "remove_expired_challenges",
-        "args": args(chunk=50),
-    },
-    {
-        "enabled": True,
-        "schedule": {"type": ScheduleType.DAILY, "exclude": [calendar.FRIDAY]},
-        "command": "reset_repeated_challenges",
-        "args": args("daily", chunk=50),
-    },
-    {
-        "enabled": True,
-        "schedule": {"type": ScheduleType.WEEKLY, "weekday": calendar.FRIDAY},
-        "command": "reset_repeated_challenges",
-        "args": args("daily", chunk=50, no_xp=True),
-    },
-    {
-        "enabled": False,
-        "schedule": ScheduleType.WEEKLY,
-        "command": "reset_repeated_challenges",
-        "args": args("weekly", chunk=50),
-    },
-    {
-        "enabled": False,
-        "schedule": ScheduleType.MONTHLY,
-        "command": "reset_repeated_challenges",
-        "args": args("monthly", chunk=50),
-    },
-    {
-        "enabled": True,
-        "schedule": ScheduleType.DAILY,
-        "command": "reassign_level_titles",
-        "args": args(chunk=50),
-    },
+    ScheduledCommand(
+        enabled=False,
+        schedule=CommandSchedule(ScheduleType.DAILY),
+        command="update_ranking",
+        args=args(chunk=100),
+    ),
+    ScheduledCommand(
+        enabled=False,
+        schedule=CommandSchedule(ScheduleType.DAILY),
+        command="remove_expired_challenges",
+        args=args(chunk=50),
+    ),
+    ScheduledCommand(
+        enabled=True,
+        schedule=CommandSchedule(
+            ScheduleType.DAILY, exclude=[calendar.FRIDAY]
+        ),
+        command="reset_repeated_challenges",
+        args=args("daily", chunk=50),
+    ),
+    ScheduledCommand(
+        enabled=True,
+        schedule=CommandSchedule(ScheduleType.WEEKLY, weekday=calendar.FRIDAY),
+        command="reset_repeated_challenges",
+        args=args("daily", chunk=50, no_xp=True),
+    ),
+    ScheduledCommand(
+        enabled=False,
+        schedule=CommandSchedule(ScheduleType.WEEKLY),
+        command="reset_repeated_challenges",
+        args=args("weekly", chunk=50),
+    ),
+    ScheduledCommand(
+        enabled=False,
+        schedule=CommandSchedule(ScheduleType.MONTHLY),
+        command="reset_repeated_challenges",
+        args=args("monthly", chunk=50),
+    ),
+    ScheduledCommand(
+        enabled=True,
+        schedule=CommandSchedule(ScheduleType.DAILY),
+        command="reassign_level_titles",
+        args=args(chunk=50),
+    ),
 ]
 
 # Ranker
