@@ -30,6 +30,7 @@ class ChallengeSerializer(serializers.ModelSerializer):
             "title",
             "status",
             "repeat_type",
+            "snooze_for_today",
             "is_pinned",
             "due_date",
             "difficulty",

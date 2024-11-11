@@ -54,12 +54,17 @@ class Command(BaseCommand):
             for challenge in challenge_chunk:
                 if challenge.user.pk in user_updates:
                     challenge.user = user_updates[challenge.user.pk]
-                challenge.penalize_failure_xp(commit=False)
+                if challenge.snooze_for_today:
+                    challenge.snooze_for_today = False
+                else:
+                    challenge.penalize_failure_xp(commit=False)
                 challenge.mark_as_active(commit=False)
                 user_updates[challenge.user.pk] = challenge.user
 
             with transaction.atomic():
-                Challenge.objects.bulk_update(challenge_chunk, ["status"])
+                Challenge.objects.bulk_update(
+                    challenge_chunk, ["status", "snooze_for_today"]
+                )
                 User.objects.bulk_update(user_updates.values(), ["total_xp"])
         Challenge.objects.repeated(repeat_type).inactive().mark_as_active()
 

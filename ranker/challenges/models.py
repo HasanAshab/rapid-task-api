@@ -45,6 +45,9 @@ class Challenge(DirtyFieldsMixin, models.Model):
         default=RepeatType.ONCE,
         help_text=_("How often the challenge repeats."),
     )
+    snooze_for_today = models.BooleanField(
+        default=False,
+    )
     is_pinned = models.BooleanField(
         _("Is Pinned"),
         default=False,
