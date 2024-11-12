@@ -58,17 +58,6 @@ class ChallengesView(ListCreateAPIView):
         serializer.save(user=self.request.user)
 
 
-class SnoozeChallengesView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        return self.request.user.challenge_set.active().unexpired()
-
-    def post(self, request):
-        self.get_queryset().update(snooze_for_today=True)
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
 class GroupedChallengesView(APIView):
     permission_classes = (IsAuthenticated,)
     # pagination_class = ChallengePagination
@@ -308,3 +297,14 @@ class ChallengeSuggestionView(APIView):
         challenge = suggest_challenge(request.user)
         data = ChallengeSuggestionSerializer(challenge).data
         return Response(data)
+
+
+class SnoozeRepeatedChallengesView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return self.request.user.challenge_set.active().unexpired().repeated()
+
+    def post(self, request):
+        self.get_queryset().update(snooze_for_today=True)
+        return Response(status=status.HTTP_204_NO_CONTENT)

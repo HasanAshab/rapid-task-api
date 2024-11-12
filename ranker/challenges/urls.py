@@ -10,6 +10,7 @@ from .views import (
     ChallengeStepsGenerationView,
     ChallengeStepView,
     ChallengeSuggestionView,
+    SnoozeRepeatedChallengesView,
 )
 
 urlpatterns = [
@@ -54,5 +55,10 @@ urlpatterns = [
         "challenges/suggestions/",
         ChallengeSuggestionView.as_view(),
         name="challenge_suggestion",
+    ),
+    path(
+        "challenges/active/snooze-for-today",
+        SnoozeRepeatedChallengesView.as_view(),
+        name="challenge_snooze",
     ),
 ]
